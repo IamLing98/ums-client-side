@@ -6,8 +6,8 @@ class Footer extends React.Component {
     return (
       <footer className="footer text-center">
 
-          Flag Forty Two Limited. © {new Date().getFullYear()}
-          {". "}All Rights Reserved. <a href="https://flag42.com">Flag42</a>
+          Phuong Dong University. © {new Date().getFullYear()}
+          {". "}All Rights Reserved. <a href="http://phuongdong.edu.vn/" target="blank">PDU</a>
 
       </footer>
     );
