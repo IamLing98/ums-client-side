@@ -42,7 +42,7 @@ class Login extends React.Component {
 					<div id="loginform">
 						<div className="logo">
 							<span className="db"><img src={img1} alt="logo" /></span>
-							<h5 className="font-medium mb-3">Đăng nhập</h5>
+							<h5 className="font-medium mb-3">Sign In to Admin</h5>
 						</div>
 						<Row>
 							<Col xs="12">
@@ -53,7 +53,7 @@ class Login extends React.Component {
 												<i className="ti-user"></i>
 											</InputGroupText>
 										</InputGroupAddon>
-										<Input type="text" placeholder="Tài khoản" required />
+										<Input type="text" placeholder="Username" required />
 									</InputGroup>
 									<InputGroup className="mb-3">
 										<InputGroupAddon addonType="prepend">
@@ -61,19 +61,36 @@ class Login extends React.Component {
 												<i className="ti-pencil"></i>
 											</InputGroupText>
 										</InputGroupAddon>
-										<Input type="password" placeholder="Mật khẩu" required />
+										<Input type="password" placeholder="Password" required />
 									</InputGroup>
 									<div className="d-flex no-block align-items-center mb-3">
 										<CustomInput type="checkbox" id="exampleCustomCheckbox" label="Remember Me" />
 										<div className="ml-auto">
-											<a href="#recoverform" id="to-recover" onClick={this.handleClick} className="forgot text-dark float-right"><i className="fa fa-lock mr-1"></i> Quên mật khẩu?</a>
+											<a href="#recoverform" id="to-recover" onClick={this.handleClick} className="forgot text-dark float-right"><i className="fa fa-lock mr-1"></i> Forgot pwd?</a>
 										</div>
 									</div>
 									<Row className="mb-3">
 										<Col xs="12">
-											<Button color="primary" size="lg" type="submit" block>Đăng nhập</Button>
+											<Button color="primary" size="lg" type="submit" block>Log In</Button>
 										</Col>
-									</Row> 
+									</Row>
+									<div className="text-center mb-2">
+										<div className="social">
+											<Button id="UncontrolledTooltipExample1" className="btn-facebook mr-2" color="primary">
+												<i aria-hidden="true" className="fab fa-facebook-f"></i>
+											</Button>
+											<UncontrolledTooltip placement="top" target="UncontrolledTooltipExample1">
+												Facebook</UncontrolledTooltip>
+											<Button id="UncontrolledTooltipExample2" className="btn-googleplus" color="danger">
+												<i aria-hidden="true" className="fab fa-google-plus-g"></i>
+											</Button>
+											<UncontrolledTooltip placement="top" target="UncontrolledTooltipExample2">
+												Google Plus</UncontrolledTooltip>
+										</div>
+									</div>
+									<div className="text-center">
+										Don&apos;t have an account? <a href="/authentication/register" className="text-info ml-1"><b>Sign Up</b></a>
+									</div>
 								</Form>
 							</Col>
 						</Row>

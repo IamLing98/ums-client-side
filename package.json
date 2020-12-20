@@ -14,7 +14,9 @@
   "author": "Flag42",
   "license": "ISC",
   "devDependencies": {},
-  "dependencies": {
+  "dependencies": {  
+    "antd":"^4.6.1",
+    "@ant-design/icons": "^4.2.2",
     "availity-reactstrap-validation": "^2.6.0",
     "axios": "^0.19.0",
     "chart.js": "2.7.2",

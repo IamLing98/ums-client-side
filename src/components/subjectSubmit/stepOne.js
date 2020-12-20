@@ -15,7 +15,7 @@ import axios from "axios";
 
 const { Step } = Steps;
 
-const {Option} = Select;
+const { Option } = Select;
 
 const columns = [
   {
@@ -90,33 +90,42 @@ const StepOne = (props) => {
       <div className="mb-0 p-3 border-bottom  -btn">
         <br />
         <Row>
-          <Col sm="3">
+          <Col sm="2">
             <Input
               placeholder="Mã học phần"
               suffix={<CalendarOutlined style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Col>
-          <Col sm="3">
+          <Col sm="2">
             <Input
               placeholder="Tên học phần"
               suffix={<CalendarOutlined style={{ color: "rgba(0,0,0,.45)" }} />}
             />
           </Col>
-          <Col sm="3">
+          <Col sm="2">
             <Select
               style={{ width: "100%" }}
               placeholder="Chương trình đào tạo"
             >
-                {
-                    educationProgramOptions.map(
-                    item => <Option value={item.educationProgramId} key={item.educationProgramId}>{item.educationProgramName}</Option>
-                    )
-                }
+              {educationProgramOptions.map((item) => (
+                <Option
+                  value={item.educationProgramId}
+                  key={item.educationProgramId}
+                >
+                  {item.educationProgramName}
+                </Option>
+              ))}
             </Select>
           </Col>
-          <Col sm="3" className="text-right">
-            <Button type="primary">
+          <Col sm="6" className="text-right">
+            <Button
+              type="primary"
+              style={{ background: "red", borderColor: "yellow" }}
+            >
               {" "}
+              <EyeOutlined /> Đã đăng ký
+            </Button>{" "}
+            <Button type="primary">
               <EyeOutlined /> Xem CTDT
             </Button>
           </Col>

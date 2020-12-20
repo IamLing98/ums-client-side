@@ -72,6 +72,7 @@ const Result = (props) => {
             </Col>
             <Col sm="6" className="text-right">
               <Button 
+              type="primary"
               >
                 Xem CTDT
               </Button>
