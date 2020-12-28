@@ -4,6 +4,7 @@ import {
   SearchOutlined,
   EyeOutlined,
   CalendarOutlined,
+  LoginOutlined,
 } from "@ant-design/icons";
 import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
 import { connect } from "react-redux";
@@ -21,18 +22,25 @@ const columns = [
   {
     title: "Mã học phần",
     dataIndex: "subjectId",
+    width: "20%",
+    align: "center",
   },
   {
     title: "Tên học phần",
     dataIndex: "subjectName",
+    width: "70%",
+    align: "center",
   },
   {
     title: "Thao tác",
     dataIndex: "subjectName",
     render: (text, record) => {
       return (
-        <span>
-          <Button type="primary">Đăng ký</Button>
+        <span style={{ textAlign: "center" }}>
+          <Button type="primary">
+            {" "}
+            <LoginOutlined /> Đăng ký{" "}
+          </Button>
         </span>
       );
     },
@@ -56,16 +64,6 @@ const StepOne = (props) => {
   const [educationProgramOptions, setEducationProgramOptions] = useState([]);
 
   const [educationProgramId, setEducationProgramId] = useState(undefined);
-
-  const onSelectChange = (selectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
-    setSelectedRowKeys(selectedRowKeys);
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: (e) => onSelectChange(e),
-  };
 
   useEffect(() => {
     axios
@@ -134,12 +132,7 @@ const StepOne = (props) => {
         <br />
       </div>
       <CardBody>
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={subjectList}
-          rowKey="subjectId"
-        />
+        <Table columns={columns} dataSource={subjectList} rowKey="subjectId" />
       </CardBody>
     </>
   );

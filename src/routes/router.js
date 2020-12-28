@@ -14,24 +14,23 @@ import Promotions from "../pages/admin/promotions";
 
 //Student Components
 import Result from "../pages/student/result";
-import SubjectSubmit from "../pages/student/subjectSubmit";
-
+import StudyPlan from "../pages/student/StudyPlan";
 
 //techer Component
-import ResultManagement from '../pages/teacher/resultManagement';
+import ResultManagement from "../pages/teacher/resultManagement";
 
 export const ThemeRoutesTeacher = [
   {
     navlabel: true,
     name: "Personal",
     icon: "mdi mdi-dots-horizontal",
-  }, 
+  },
   {
     path: "/dashboards/classic",
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
     component: ResultManagement,
-  }, 
+  },
   {
     path: "/teachers/calendar",
     name: "Thời Khoá Biểu",
@@ -43,13 +42,13 @@ export const ThemeRoutesTeacher = [
     name: "Quản lý điểm",
     icon: "mdi mdi-account-circle",
     component: ResultManagement,
-  }, 
+  },
   {
     path: "/teachers/class-management",
     name: "Quản lý lớp",
     icon: "mdi mdi-account-circle",
     component: ResultManagement,
-  },  
+  },
   {
     path: "/dashboards/policies",
     name: "Sửa Lý Lịch",
@@ -73,7 +72,7 @@ export const ThemeRoutesTeacher = [
     name: "Hỏi Đáp",
     icon: "mdi mdi-loop",
     component: Classic,
-  }, 
+  },
   {
     path: "/",
     pathTo: "/dashboards/classic",
@@ -93,13 +92,18 @@ export const ThemeRoutesStudent = [
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
     component: Classic,
+  }, 
+  {
+    path: "/dashboards/claims",
+    name: "Chương Trình Đào Tạo",
+    icon: "mdi mdi-loop",
+    component: Classic,
   },
-
   {
     path: "/students/subjectSubmit",
-    name: "Đăng Ký Học Phần",
+    name: "Kế Hoạch Học Tập",
     icon: "mdi mdi-account-circle",
-    component: SubjectSubmit,
+    component: StudyPlan,
   },
   {
     path: "/clients/cClients",
@@ -121,22 +125,10 @@ export const ThemeRoutesStudent = [
   },
   {
     path: "/dashboards/claims",
-    name: "Góp Ý Kiến",
-    icon: "mdi mdi-loop",
-    component: Classic,
-  },
-  {
-    path: "/dashboards/claims",
     name: "Xin Giấy Xác Nhận",
     icon: "mdi mdi-loop",
     component: Classic,
-  },
-  {
-    path: "/dashboards/claims",
-    name: "Hỏi Đáp",
-    icon: "mdi mdi-loop",
-    component: Classic,
-  },
+  }, 
   //   {
   //     collapse: true,
   //     name: "Master",

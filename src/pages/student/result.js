@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import axios from "axios";
+import axios from "../../api/index";
 
 const columns = [
   {
@@ -55,7 +55,7 @@ const Result = (props) => {
 
   useEffect(() => {
     axios
-      .get("/subjects")
+      .get("/subjects", true)
       .then((res) => {
         setSubjectList(res.data);
       })
