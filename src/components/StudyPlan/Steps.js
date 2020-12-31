@@ -5,7 +5,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import "react-table/react-table.css";
 import StepOne from "./StepOne";
 import "react-phone-number-input/style.css";
-import "react-flags-select/css/react-flags-select.css";
+import "react-flags-select/css/react-flags-select.css"; 
 
 const { Step } = Steps;
 
@@ -43,17 +43,16 @@ const PlanSteps = (props) => {
     setSteps(newArr);
   };
 
-  useEffect(() => {
-    console.log(props.selectedItem);
+  useEffect(() => { 
     const {selectedItem} = props;
     if(selectedItem.progress === 11){
-      updateFieldChanged("status", 0, "process");
+      updateFieldChanged("description", 0, "process");
     }
     if(selectedItem.progress === 13){
       updateFieldChanged("status", 0, "finish");
     }
   }, []);
-
+ 
   return (
     <div>
       <Card>
@@ -93,7 +92,7 @@ const PlanSteps = (props) => {
           </Row>
         </CardTitle>
 
-        <div className="steps-content">{step === 0 && <StepOne></StepOne>}</div>
+        <div className="steps-content">{step === 0 && <StepOne selectedItem={props.selectedItem}></StepOne>}</div>
       </Card>
     </div>
   );

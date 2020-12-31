@@ -11,8 +11,7 @@ const SubjectSumit = (props) => {
 
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const extractTermList = (termList = []) => {
-    console.log(termList);
+  const extractTermList = (termList = []) => { 
     termList.forEach(function (item) {
       item.title = "Học kỳ " + item.term + " năm " + item.year;
       if (item.status === 1) {
@@ -94,8 +93,7 @@ const SubjectSumit = (props) => {
       </div>
     );
   }
-  else if(selectedItem){ 
-    console.log(selectedItem)
+  else if(selectedItem){  
     if(selectedItem.status === 2) { 
       return <MakePlanSteps selectedItem={selectedItem} setSelectedItem={setSelectedItem}></MakePlanSteps>
     }

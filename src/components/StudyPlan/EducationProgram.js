@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Modal} from 'antd';
+import {Modal , Button} from 'antd';
 const EducationProgram = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -8,11 +8,11 @@ const EducationProgram = (props) => {
     };
   
     const handleOk = () => {
-      setIsModalVisible(false);
+      props.setShowEducationProgramModal(false);
     };
   
     const handleCancel = () => {
-      setIsModalVisible(false);
+      props.setShowEducationProgramModal(false);
     };
   
     useEffect(()=>{
@@ -20,16 +20,14 @@ const EducationProgram = (props) => {
     },[props.isModalVisible])
     
     return (
-      <>
-        <Button type="primary" onClick={showModal}>
-          Open Modal
-        </Button>
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <> 
+        <Modal title="Chương trình đào tạo" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <p>Some contents...</p>
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Modal>
       </>
+    )
 };
 
 export default EducationProgram;

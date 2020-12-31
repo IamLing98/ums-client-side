@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Steps, Input, Select } from "antd";
+import { Table, Button, Steps, Input, Select, message } from "antd";
 import {
   SearchOutlined,
   EyeOutlined,
@@ -7,6 +7,8 @@ import {
   LoginOutlined,
 } from "@ant-design/icons";
 import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
+import EducationProgram from "./EducationProgram";
+import SubjectSubmitted from "./SubjectSubmitted";
 import { connect } from "react-redux";
 import "react-table/react-table.css";
 import { NavLink } from "react-router-dom";
@@ -18,34 +20,6 @@ const { Step } = Steps;
 
 const { Option } = Select;
 
-const columns = [
-  {
-    title: "Mã học phần",
-    dataIndex: "subjectId",
-    width: "20%",
-    align: "center",
-  },
-  {
-    title: "Tên học phần",
-    dataIndex: "subjectName",
-    width: "70%",
-    align: "center",
-  },
-  {
-    title: "Thao tác",
-    dataIndex: "subjectName",
-    render: (text, record) => {
-      return (
-        <span style={{ textAlign: "center" }}>
-          <Button type="primary">
-            {" "}
-            <LoginOutlined /> Đăng ký{" "}
-          </Button>
-        </span>
-      );
-    },
-  },
-];
 const StepOne = (props) => {
   const [subjectList, setSubjectList] = useState([]);
 
@@ -61,28 +35,103 @@ const StepOne = (props) => {
 
   const [subjectName, setSubjectName] = useState(null);
 
-  const [educationProgramOptions, setEducationProgramOptions] = useState([]);
+  const [educationProgramList, setEducationProgramList] = useState([]);
 
   const [educationProgramId, setEducationProgramId] = useState(undefined);
+
+  const [showEducationProgramModal, setShowEducationProgramModal] = useState(
+    false
+  );
+
+  const [showSubjectSubmittedModal, setShowSubjectSubmittedModal] = useState(
+    false
+  );
+
+  const [submittedList, setSubmittedList] = useState([]);
+
+  const handleSubmitSubject = (values) => {
+    values.termId = props.selectedItem.id;
+    axios
+      .post("/subjectsRegistration", values)
+      .then((res) => {
+        message.success("Thành công!!!", 2.5);
+        getListSubjectSubmitted();
+      })
+      .catch((err) => message.error(err.response.data.message, 2.5));
+  };
+
+  const handleDeleteSubjectSubmmited = (values) => {
+    axios
+      .delete(
+        "/subjectsRegistration/" +
+          values.subjectId +
+          "/" +
+          props.selectedItem.id
+      )
+      .then((res) => {
+        message.success("Đã xoá!!!", 2.5);
+        getListSubjectSubmitted();
+      })
+      .catch((err) => message.success("Thất bại!!!", 2.5));
+  };
+
+  const columns = [
+    {
+      title: "Mã học phần",
+      dataIndex: "subjectId",
+      width: "20%",
+      align: "center",
+    },
+    {
+      title: "Tên học phần",
+      dataIndex: "subjectName",
+      width: "70%",
+      align: "center",
+    },
+    {
+      title: "Thao tác",
+      dataIndex: "subjectName",
+      render: (text, record) => {
+        return (
+          <span style={{ textAlign: "center" }}>
+            <Button onClick={() => handleSubmitSubject(record)} type="primary">
+              {" "}
+              <LoginOutlined />
+              Đăng ký{" "}
+            </Button>
+          </span>
+        );
+      },
+    },
+  ];
+
+  const getListSubjectSubmitted = () => {
+    axios
+      .get("/subjectsRegistration/" + props.selectedItem.id)
+      .then((res) => {
+        setSubmittedList(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     axios
       .get("/subjects")
       .then((res) => {
         setSubjectList(res.data);
+        getListSubjectSubmitted();
       })
       .catch((err) => console.log(err));
 
     axios
       .get("/education-programs")
       .then((res) => {
-        setEducationProgramOptions(res.data);
+        setEducationProgramList(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
   return (
     <>
       <div className="mb-0 p-3 border-bottom  -btn">
@@ -105,7 +154,7 @@ const StepOne = (props) => {
               style={{ width: "100%" }}
               placeholder="Chương trình đào tạo"
             >
-              {educationProgramOptions.map((item) => (
+              {educationProgramList.map((item) => (
                 <Option
                   value={item.educationProgramId}
                   key={item.educationProgramId}
@@ -119,11 +168,15 @@ const StepOne = (props) => {
             <Button
               type="primary"
               style={{ background: "red", borderColor: "yellow" }}
+              onClick={() => setShowSubjectSubmittedModal(true)}
             >
               {" "}
               <EyeOutlined /> Đã đăng ký
             </Button>{" "}
-            <Button type="primary">
+            <Button
+              type="primary"
+              onClick={() => setShowEducationProgramModal(true)}
+            >
               <EyeOutlined /> Xem CTDT
             </Button>
           </Col>
@@ -134,6 +187,16 @@ const StepOne = (props) => {
       <CardBody>
         <Table columns={columns} dataSource={subjectList} rowKey="subjectId" />
       </CardBody>
+      <EducationProgram
+        isModalVisible={showEducationProgramModal}
+        setShowEducationProgramModal={setShowEducationProgramModal}
+      />
+      <SubjectSubmitted
+        isModalVisible={showSubjectSubmittedModal}
+        setShowSubjectSubmittedModal={setShowSubjectSubmittedModal}
+        submittedList={submittedList}
+        handleDeleteSubjectSubmmited={handleDeleteSubjectSubmmited}
+      />
     </>
   );
 };
