@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { List, Avatar, Button } from "antd";
+import { List, Avatar, Button ,PageHeader} from "antd";
 import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
 import View from "../../components/StudyPlan/Views";
 import MakePlanSteps from "../../components/StudyPlan/Steps";
@@ -11,7 +11,7 @@ const SubjectSumit = (props) => {
 
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const extractTermList = (termList = []) => { 
+  const extractTermList = (termList = []) => {
     termList.forEach(function (item) {
       item.title = "Học kỳ " + item.term + " năm " + item.year;
       if (item.status === 1) {
@@ -34,31 +34,16 @@ const SubjectSumit = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
-
   if (selectedItem === null) {
     return (
       <div>
         <Card>
-          <CardTitle className="mb-0 p-3 border-bottom bg-light">
-            <Row>
-              <Col sm="6">
-                <i className="mdi mdi-border-right mr-2"></i>Danh sách học kỳ
-              </Col>
-            </Row>
+          <CardTitle className="mb-0  border-bottom bg-light">
+            <PageHeader
+              className="site-page-header" 
+              title={"Danh sách học kỳ"} 
+              style={{height:"56px"}}
+            ></PageHeader>
           </CardTitle>
           <CardBody>
             <List
@@ -70,11 +55,11 @@ const SubjectSumit = (props) => {
                     <Button
                       type="primary"
                       key="list-loadmore-edit"
+                      style={{ width: "105px" }}
                       onClick={() => setSelectedItem(item)}
                     >
-                      
                       <EyeOutlined />
-                      Xem 
+                      Chi tiết
                     </Button>,
                   ]}
                 >
@@ -92,14 +77,14 @@ const SubjectSumit = (props) => {
         </Card>
       </div>
     );
-  }
-  else if(selectedItem){  
-    if(selectedItem.status === 2) { 
-      return <MakePlanSteps selectedItem={selectedItem} setSelectedItem={setSelectedItem}></MakePlanSteps>
-    }
-    else return <View setSelectedItem={setSelectedItem}></View>
-  }
-  else return <></>;
+  } else if (selectedItem) {
+    return (
+      <MakePlanSteps
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+      ></MakePlanSteps>
+    );
+  } else return <></>;
 };
 
 export default SubjectSumit;

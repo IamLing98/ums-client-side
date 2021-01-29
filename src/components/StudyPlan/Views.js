@@ -10,7 +10,6 @@ const { Step } = Steps;
 
 const Views = (props) => {
   useEffect(() => {
-    console.log("lol");
   }, []);
 
   const data = [

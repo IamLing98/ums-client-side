@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Steps, Input, Select, message } from "antd";
+import { Table, Button, Steps, Spin, Select, message } from "antd";
 import {
   SearchOutlined,
   EyeOutlined,
@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
 import EducationProgram from "./EducationProgram";
-import SubjectSubmitted from "./SubjectSubmitted";
 import { connect } from "react-redux";
 import "react-table/react-table.css";
 import { NavLink } from "react-router-dom";
@@ -16,63 +15,22 @@ import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
 import axios from "axios";
 
-const { Step } = Steps;
-
 const { Option } = Select;
 
 const StepOne = (props) => {
   const [subjectList, setSubjectList] = useState([]);
 
-  const [page, setPage] = useState(0);
-
-  const [pageSize, setPageSize] = useState(10);
-
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  const [step, setStep] = useState(0);
-
-  const [subjectId, setSubjectId] = useState(null);
-
-  const [subjectName, setSubjectName] = useState(null);
-
-  const [educationProgramList, setEducationProgramList] = useState([]);
-
-  const [educationProgramId, setEducationProgramId] = useState(undefined);
-
-  const [showEducationProgramModal, setShowEducationProgramModal] = useState(
-    false
-  );
-
-  const [showSubjectSubmittedModal, setShowSubjectSubmittedModal] = useState(
-    false
-  );
-
-  const [submittedList, setSubmittedList] = useState([]);
-
   const handleSubmitSubject = (values) => {
-    values.termId = props.selectedItem.id;
+    let obj = {};
+    obj.termId = props.selectedItem.id;
+    obj.subjectId = values.subjectId;
     axios
-      .post("/subjectsRegistration", values)
+      .post("/subjectsRegistration", obj)
       .then((res) => {
         message.success("Thành công!!!", 2.5);
-        getListSubjectSubmitted();
+        props.getListSubjectSubmitted();
       })
       .catch((err) => message.error(err.response.data.message, 2.5));
-  };
-
-  const handleDeleteSubjectSubmmited = (values) => {
-    axios
-      .delete(
-        "/subjectsRegistration/" +
-          values.subjectId +
-          "/" +
-          props.selectedItem.id
-      )
-      .then((res) => {
-        message.success("Đã xoá!!!", 2.5);
-        getListSubjectSubmitted();
-      })
-      .catch((err) => message.success("Thất bại!!!", 2.5));
   };
 
   const columns = [
@@ -92,9 +50,18 @@ const StepOne = (props) => {
       title: "Thao tác",
       dataIndex: "subjectName",
       render: (text, record) => {
+        console.log(record);
         return (
           <span style={{ textAlign: "center" }}>
-            <Button onClick={() => handleSubmitSubject(record)} type="primary">
+            <Button
+              disabled={
+                record.submitted === false && props.selectedItem.progress === 12
+                  ? false
+                  : true
+              }
+              onClick={() => handleSubmitSubject(record)}
+              type="primary"
+            >
               {" "}
               <LoginOutlined />
               Đăng ký{" "}
@@ -104,99 +71,47 @@ const StepOne = (props) => {
       },
     },
   ];
-
-  const getListSubjectSubmitted = () => {
-    axios
-      .get("/subjectsRegistration/" + props.selectedItem.id)
-      .then((res) => {
-        setSubmittedList(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
   useEffect(() => {
     axios
       .get("/subjects")
       .then((res) => {
+        for (var i = 0; i < res.data.length; i++) {
+          res.data[i].submitted = false;
+        }
         setSubjectList(res.data);
-        getListSubjectSubmitted();
       })
       .catch((err) => console.log(err));
-
-    axios
-      .get("/education-programs")
-      .then((res) => {
-        setEducationProgramList(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
+
+  useEffect(() => {
+    let newList = [];
+    for (var i = 0; i < subjectList.length; i++) {
+      newList.push(subjectList[i]);
+      newList[i].submitted = false;
+    }
+    for (var i = 0; i < props.submittedList.length; i++) {
+      for (var j = 0; j < newList.length; j++) {
+        if (props.submittedList[i].subjectId === newList[j].subjectId) {
+          newList[i].submitted = true;
+        }
+      }
+    }
+    setSubjectList(newList);
+  }, [props.submittedList]);
   return (
     <>
-      <div className="mb-0 p-3 border-bottom  -btn">
-        <br />
-        <Row>
-          <Col sm="2">
-            <Input
-              placeholder="Mã học phần"
-              suffix={<CalendarOutlined style={{ color: "rgba(0,0,0,.45)" }} />}
-            />
-          </Col>
-          <Col sm="2">
-            <Input
-              placeholder="Tên học phần"
-              suffix={<CalendarOutlined style={{ color: "rgba(0,0,0,.45)" }} />}
-            />
-          </Col>
-          <Col sm="2">
-            <Select
-              style={{ width: "100%" }}
-              placeholder="Chương trình đào tạo"
-            >
-              {educationProgramList.map((item) => (
-                <Option
-                  value={item.educationProgramId}
-                  key={item.educationProgramId}
-                >
-                  {item.educationProgramName}
-                </Option>
-              ))}
-            </Select>
-          </Col>
-          <Col sm="6" className="text-right">
-            <Button
-              type="primary"
-              style={{ background: "red", borderColor: "yellow" }}
-              onClick={() => setShowSubjectSubmittedModal(true)}
-            >
-              {" "}
-              <EyeOutlined /> Đã đăng ký
-            </Button>{" "}
-            <Button
-              type="primary"
-              onClick={() => setShowEducationProgramModal(true)}
-            >
-              <EyeOutlined /> Xem CTDT
-            </Button>
-          </Col>
-        </Row>
-
-        <br />
-      </div>
       <CardBody>
-        <Table columns={columns} dataSource={subjectList} rowKey="subjectId" />
+      <Spin tip="Không diễn ra..." spinning={props.selectedItem.progress === 12 ? false : true}>
+      <Table
+          size="small"
+          pagination={{ size: "default" }}
+          columns={columns}
+          dataSource={subjectList}
+          rowKey="subjectId"
+        />
+        </Spin>
+         
       </CardBody>
-      <EducationProgram
-        isModalVisible={showEducationProgramModal}
-        setShowEducationProgramModal={setShowEducationProgramModal}
-      />
-      <SubjectSubmitted
-        isModalVisible={showSubjectSubmittedModal}
-        setShowSubjectSubmittedModal={setShowSubjectSubmittedModal}
-        submittedList={submittedList}
-        handleDeleteSubjectSubmmited={handleDeleteSubjectSubmmited}
-      />
     </>
   );
 };

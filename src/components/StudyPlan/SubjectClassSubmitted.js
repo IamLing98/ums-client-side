@@ -20,57 +20,12 @@ import { timeTable, daysOfWeek } from "./util";
 
 const { Option } = Select;
 
-const StepTwo = (props) => {
-  const [scheduleInfo, setScheduleInfo] = useState([]);
-
-  const getSchedule = (scheduleId) => {
-    axios
-      .get(`/schedules/${scheduleId}`)
-      .then((res) => {
-        let submittedList = props.submittedList;
-        let newList = res.data;
-        console.log("submttedList:,",submittedList.length)
-        console.log("sche:,",newList.length)
-        for (var i = 0; i < submittedList.length; i++) {
-          for (var j = 0; j < newList.length; j++) {
-            if (submittedList[i].subjectId === newList[j].subjectId) {
-              newList[j].submitted = true;
-            }
-          }
-        }
-        setScheduleInfo(newList);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleSubmitSubjectClass = (values) => {
-    console.log(values);
-    let obj = {};
-    obj.subjectClassId = values.subjectClassId;
-    obj.termId = props.term.id;
-    obj.scheduleId = props.term.activeSchedule;
-    axios
-      .post(`/subjectClassRegistration`, obj)
-      .then((res) => {
-        message.success("Đăng ký thành công");
-        getSchedule(props.term.activeSchedule);
-        props.getListSubjectClassSubmitted();
-      })
-      .catch((err) => message.error(err.response.data.message, 2.5));
-  };
-
+const SubjectClassSubmitted = (props) => {
   useEffect(() => {
-    if (props.term) {
-      console.log("get schedule");
-      getSchedule(props.term.activeSchedule);
-    }
+    // if (props.term) {
+    //   getSchedule(props.term.activeSchedule);
+    // }
   }, [props.term]);
-
-  useEffect(() => {
-    if (props.term) {
-      console.log("get schedule");
-      getSchedule(props.term.activeSchedule);
-    }}, [props.submittedList]);
 
   const columns = [
     {
@@ -171,33 +126,57 @@ const StepTwo = (props) => {
       align: "center",
       render: (text, record) => {
         return (
-          <Button
-            type="primary"
-            onClick={() => {
-              handleSubmitSubjectClass(record);
-            }}
-            disabled={record.submitted === true ? true : false}
-          >
-            <LoginOutlined /> Đăng ký
-          </Button>
+          <>
+            <Button
+              type="primary"
+              onClick={() => {
+                // handleSubmitSubjectClass(record);
+              }}
+            >
+              <LoginOutlined /> Đăng ký
+            </Button>
+          </>
+          // <Button
+          //   type="primary"
+          //   style={{ width: "105px", background: "#E65539" }}
+          // >
+          //   <CloseSquareOutlined /> Huỷ
+          // </Button> }
         );
       },
     },
   ];
 
+  const handleOk = () => {
+    props.setShowSCSListModal(false);
+  };
+
+  const handleCancel = () => {
+    props.setShowSCSListModal(false);
+  };
+
   return (
     <>
-      <CardBody>
+      <Modal
+        title="Học phần đã đăng ký"
+        visible={props.visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width="50%"
+        okText="Đóng"
+        maskClosable={false}
+      >
         <Table
           size="small"
           columns={columns}
           pagination={{ size: "default" }}
-          dataSource={scheduleInfo}
+          dataSource={props.scsList}
           rowKey="subjectClassId"
+          bordered
         />
-      </CardBody>
+      </Modal>
     </>
   );
 };
 
-export default StepTwo;
+export default SubjectClassSubmitted;

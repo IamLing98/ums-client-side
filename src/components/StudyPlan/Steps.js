@@ -1,99 +1,182 @@
 import React, { useState, useEffect } from "react";
-import { Steps, Button, message } from "antd";
+import { Tabs, Button, message, Menu, PageHeader } from "antd";
 import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import { CloseOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  EyeOutlined,
+  RollbackOutlined,
+  FundOutlined,
+  AppstoreOutlined,
+  MailOutlined,
+  WindowsOutlined,
+} from "@ant-design/icons";
 import "react-table/react-table.css";
 import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
 import "react-phone-number-input/style.css";
-import "react-flags-select/css/react-flags-select.css"; 
+import "react-flags-select/css/react-flags-select.css";
+import SubjectSubmitted from "./SubjectSubmitted";
+import EducationProgram from "./EducationProgram";
+import SubjectClassSubmitted from "./SubjectClassSubmitted";
+import axios from "axios";
 
-const { Step } = Steps;
+const { SubMenu } = Menu;
 
-const data = [
-  {
-    title: "Đăng ký học phần",
-    description: "s",
-    status: "s",
-  },
-  {
-    title: "Đăng ký lớp học phần",
-    description: "",
-    status: "",
-  },
-  {
-    title: "Đăng ký điều chỉnh",
-    status: "",
-    description: "",
-  },
-];
+const { TabPane } = Tabs;
 
 const PlanSteps = (props) => {
-  const [step, setStep] = useState(0);
+  const [showSSModal, setShowSSModal] = useState(false);
 
-  const [steps, setSteps] = useState(data);
+  const [educationProgramList, setEducationProgramList] = useState([]);
 
-  const updateFieldChanged = (name, index, value)  => {
-    let newArr = steps.map((item, i) => {
-      if (index == i) {
-        return { ...item, [name]:  value };
-      } else {
-        return item;
-      }
-    });
-    setSteps(newArr);
+  const [showEducationProgramModal, setShowEducationProgramModal] = useState(
+    false
+  );
+  const [submittedList, setSubmittedList] = useState([]);
+
+  const [scsList, setSCSList] = useState([]);
+
+  const [showSSCListModal, setShowSCSListModal] = useState(false);
+
+  const [term, setTerm] = useState(null);
+
+  const getListSubjectSubmitted = () => {
+    axios
+      .get("/subjectsRegistration/" + props.selectedItem.id)
+      .then((res) => {
+        setSubmittedList(res.data);
+      })
+      .catch((err) => console.log(err));
   };
 
-  useEffect(() => { 
-    const {selectedItem} = props;
-    if(selectedItem.progress === 11){
-      updateFieldChanged("description", 0, "process");
-    }
-    if(selectedItem.progress === 13){
-      updateFieldChanged("status", 0, "finish");
-    }
+  const getListSubjectClassSubmitted = () => {
+    axios
+      .get("/subjectClassRegistration/" + props.selectedItem.id)
+      .then((res) => {
+        setSCSList(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getTermDetail = () => {
+    axios
+      .get("/terms/" + props.selectedItem.id)
+      .then((res) => {
+        setTerm(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteSS = (values) => {
+    axios
+      .delete(
+        "/subjectsRegistration/" +
+          values.subjectId +
+          "/" +
+          props.selectedItem.id
+      )
+      .then((res) => {
+        message.success("Đã xoá!!!", 2.5);
+        getListSubjectSubmitted();
+      })
+      .catch((err) => message.success("Thất bại!!!", 2.5));
+  };
+
+  const getEducationProgram = () => {
+    axios
+      .get("/education-programs")
+      .then((res) => {
+        setEducationProgramList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getListSubjectSubmitted();
+    getEducationProgram();
+    getTermDetail();
+    getListSubjectClassSubmitted();
   }, []);
- 
+
   return (
     <div>
       <Card>
-        <CardTitle className="mb-0 p-3 border-bottom bg-light">
-          <Row>
-            <Col sm="6">
-              <i className="mdi mdi-border-right mr-2"></i>Kế hoạch học tập
-            </Col>
-            <Col sm="6" className="col text-right">
-              <Button
-                type="primary"
-                style={{ backgroundColor: "red" }}
-                onClick={() => props.setSelectedItem(null)}
+        <CardTitle className="mb-0  border-bottom bg-light">
+          <PageHeader
+            className="site-page-header"
+            onBack={() => props.setSelectedItem(null)}
+            title={`Kế hoạch học tập kỳ ${props.selectedItem.term} năm ${props.selectedItem.year} `}
+            extra={
+              <Menu
+                onClick={(value) => console.log(value)}
+                selectedKeys={[1]}
+                mode="horizontal"
               >
-                <CloseOutlined />
-              </Button>
-            </Col>
-          </Row>
-          <hr />
-          <Row>
-            <Col sm="12">
-              <Steps
-                size="small"
-                current={step}
-                className="site-navigation-steps"
-              >
-                {steps.map((item) => (
-                  <Step
-                    key={item.title}
-                    title={item.title}
-                    description={item.description}
-                    status={item.status}
-                  />
-                ))}
-              </Steps>
-            </Col>
-          </Row>
+                <Menu.Item
+                  key="mail"
+                  onClick={() => setShowSSModal(true)}
+                  icon={<MailOutlined />}
+                >
+                  Kế hoạch HT
+                </Menu.Item>
+                <Menu.Item
+                  key="app"
+                  onClick={() => setShowSCSListModal(true)}
+                  icon={<AppstoreOutlined />}
+                >
+                  Lớp HP đã đăng ký
+                </Menu.Item>
+                <Menu.Item
+                  key="alipay"
+                  onClick={() => setShowEducationProgramModal(true)}
+                  icon={<FundOutlined />}
+                >
+                  Chương trình đào tạo
+                </Menu.Item>
+              </Menu>
+            }
+          ></PageHeader>
         </CardTitle>
-
-        <div className="steps-content">{step === 0 && <StepOne selectedItem={props.selectedItem}></StepOne>}</div>
+        <Tabs defaultActiveKey="2" type="card" size={"small"}>
+          <TabPane tab="Đăng ký kế hoạch học tập" key="1">
+            <StepOne
+              selectedItem={props.selectedItem}
+              getListSubjectSubmitted={getListSubjectSubmitted}
+              submittedList={submittedList}
+            />
+          </TabPane>
+          <TabPane tab="Đăng ký lớp học phần" key="2">
+            <StepTwo
+              term={term}
+              submittedList={scsList}
+              getListSubjectClassSubmitted={getListSubjectClassSubmitted}
+            />
+          </TabPane>
+          <TabPane tab="Đăng ký điều chỉnh" key="3">
+            {/* <StepThree   term={term} getTermDetail={getTermDetail} /> */}
+          </TabPane>
+        </Tabs>
       </Card>
+      <SubjectSubmitted
+        visible={showSSModal}
+        setShowSSModal={setShowSSModal}
+        submittedList={submittedList}
+        handleDeleteSS={handleDeleteSS}
+      />
+      <SubjectClassSubmitted
+        visible={showSSCListModal}
+        setShowSCSListModal={setShowSCSListModal}
+        scsList={scsList}
+        getListSubjectClassSubmitted={getListSubjectClassSubmitted}
+        // handleDeleteSS={handleDeleteSS}
+      />
+      <EducationProgram
+        isModalVisible={showEducationProgramModal}
+        setShowEducationProgramModal={setShowEducationProgramModal}
+        educationProgramList={educationProgramList}
+      />
     </div>
   );
 };

@@ -1,67 +1,100 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Alert, Space } from "antd";
+import { Modal, Button, Alert, Space, Table } from "antd";
+import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
+import {
+  SearchOutlined,
+  EyeOutlined,
+  CalendarOutlined,
+  LoginOutlined,
+} from "@ant-design/icons";
+
 const SubjectSubmitted = (props) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
   const handleOk = () => {
-    props.setShowSubjectSubmittedModal(false);
+    props.setShowSSModal(false);
   };
 
   const handleCancel = () => {
-    props.setShowSubjectSubmittedModal(false);
+    props.setShowSSModal(false);
   };
 
-  useEffect(() => {
-    setIsModalVisible(props.isModalVisible);
-  }, [props.isModalVisible]);
-
+  useEffect(() => {}, [props.isModalVisible]);
+  const columns = [ 
+    {
+      title: "Mã Học phần",
+      dataIndex: "subjectId",
+      align: "center",
+      render: (text, record) => (
+        <span>
+          <span>{text}</span>
+        </span>
+      ),
+    },
+    {
+      title: "Tên Học Phần",
+      dataIndex: "subjectName",
+      align: "center",
+      render: (text, record) => (
+        <span>
+          <span>{text}</span>
+        </span>
+      ),
+    },
+    {
+      title: "Số Tín",
+      dataIndex: "eachSubject",
+      align: "center",
+      render: (text, record) => (
+        <span>
+          <span>{text}</span>
+        </span>
+      ),
+    },
+    {
+      title: "Thao tác",
+      dataIndex: "numberOfSeats",
+      align: "center",
+      render: (text, record) => {
+        return (
+          <>
+            <Button
+              type="primary"
+              onClick={() => {
+                // handleSubmitSubjectClass(record);
+              }}
+            >
+              Huỷ
+            </Button>
+          </>
+          // <Button
+          //   type="primary"
+          //   style={{ width: "105px", background: "#E65539" }}
+          // >
+          //   <CloseSquareOutlined /> Huỷ
+          // </Button> }
+        );
+      },
+    },
+  ];
   return (
     <>
       <Modal
         title="Học phần đã đăng ký"
-        visible={isModalVisible}
+        visible={props.visible}
         onOk={handleOk}
         onCancel={handleCancel}
         width="50%"
         okText="Đóng"
-      >
-        {props.submittedList.map((item, index) => (
-          <Alert
-            key={item.subjectId}
-            message={
-              <b>
-                {index +
-                  1 +
-                  ". Mã học phần: " +
-                  item.subjectId +
-                  " - " +
-                  item.subjectName}
-              </b>
-            }
-            description={""}
-            type="info"
-            action={
-              <Space direction="horizontal">
-                <Button size="small" type="primary">
-                  Chi tiết
-                </Button>
-                <Button
-                  style={{ width: "100%" }}
-                  size="small"
-                  danger
-                  type="ghost"
-                  onClick={()=>props.handleDeleteSubjectSubmmited(item)}
-                >
-                  Xoá
-                </Button>
-              </Space>
-            }
-          />
-        ))}
+        forceRender
+        maskClosable={false}
+      > 
+          <Table
+            size="small"
+            columns={columns}
+            pagination={{ size: "default" }}
+            dataSource={props.submittedList}
+            rowKey="subjectClassId"
+            bordered
+          /> 
       </Modal>
     </>
   );
