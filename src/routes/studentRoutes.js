@@ -17,69 +17,7 @@ import Result from "../pages/student/result";
 import StudyPlan from "../pages/student/StudyPlan";
 
 //techer Component
-import ResultManagement from "../pages/teacher/resultManagement";
-
-export const ThemeRoutesTeacher = [
-  {
-    navlabel: true,
-    name: "Personal",
-    icon: "mdi mdi-dots-horizontal",
-  },
-  {
-    path: "/dashboards/classic",
-    name: "Tin Tức",
-    icon: "mdi mdi-view-dashboard",
-    component: ResultManagement,
-  },
-  {
-    path: "/teachers/calendar",
-    name: "Thời Khoá Biểu",
-    icon: "mdi mdi-contacts",
-    component: ResultManagement,
-  },
-  {
-    path: "/teachers/result-management",
-    name: "Quản lý điểm",
-    icon: "mdi mdi-account-circle",
-    component: ResultManagement,
-  },
-  {
-    path: "/teachers/class-management",
-    name: "Quản lý lớp",
-    icon: "mdi mdi-account-circle",
-    component: ResultManagement,
-  },
-  {
-    path: "/dashboards/policies",
-    name: "Sửa Lý Lịch",
-    icon: "mdi mdi-file-document",
-    component: Classic,
-  },
-  {
-    path: "/dashboards/claims",
-    name: "Góp Ý Kiến",
-    icon: "mdi mdi-loop",
-    component: Classic,
-  },
-  {
-    path: "/dashboards/claims",
-    name: "Xin Giấy Xác Nhận",
-    icon: "mdi mdi-loop",
-    component: Classic,
-  },
-  {
-    path: "/dashboards/claims",
-    name: "Hỏi Đáp",
-    icon: "mdi mdi-loop",
-    component: Classic,
-  },
-  {
-    path: "/",
-    pathTo: "/dashboards/classic",
-    name: "Dashboard",
-    redirect: true,
-  },
-];
+// import ResultManagement from "../pages/teacher/resultManagement"; 
 
 export const ThemeRoutesStudent = [
   {
@@ -205,4 +143,4 @@ export const ThemeRoutesStudent = [
     name: "Dashboard",
     redirect: true,
   },
-];
+]; 

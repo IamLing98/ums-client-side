@@ -25,7 +25,7 @@ class WebSocketContainer extends React.Component {
       );
     WebSocketContainer.client.onConnect = () => {
       WebSocketContainer.client.subscribe("/topic/notifications", (response) => {
-        let data;
+        // let data;
         // try {
         //   data = JSON.parse(response.body);
         // } catch (e) {
