@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from './layout-components/header/header';
 import Sidebar from './layout-components/sidebar/sidebar';
 import Footer from './layout-components/footer/footer';
-import {ThemeRoutesStudent, ThemeRoutesTeacher} from '../routes/router';
+import {ThemeRoutesStudent  } from '../routes/router';
 import HeaderRoutes from '../routes/headerroutes';
 
 const mapStateToProps = state => ({

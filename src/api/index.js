@@ -4,7 +4,7 @@ const API_ROOT = "http://127.0.0.1:8080";
 
 const responseBody = (res) => res.data;
 
-let token = localStorage.getItem("jwtToken");
+// let token = localStorage.getItem("jwtToken");
 
 axios.defaults.headers.common['Authorization'] = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MTcxMDAwMzIiLCJleHAiOjE2MTM2Nzg5NDYsImlhdCI6MTYxMTg3ODk0Nn0.QAqj8I5gDse8D_UacHOCcvmbGBR1Ve0kspf1LFOckLUEoDPCK07Td-BMz0MKaP2Oplz4LrJUvRo_JvNAtjwZeQ'
 // const tokenPlugin = (secured) => {
@@ -47,7 +47,7 @@ export const api = {
       .delete(`${API_ROOT}${url}`)
       .then(responseBody);
   },
-  setToken: (newToken) => (token = newToken),
+  // setToken: (newToken) => (token = newToken),
 };
 
 export default api;

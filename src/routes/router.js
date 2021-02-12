@@ -1,16 +1,16 @@
 import Classic from "../views/dashboards/classic";
-import Starterkit from "../views/sample-pages/starter-kit";
-import Searchresult from "../views/sample-pages/search-result";
+// import Starterkit from "../views/sample-pages/starter-kit";
+// import Searchresult from "../views/sample-pages/search-result";
 import CompanyClients from "../pages/admin/companyClients";
-import IndividualClients from "../pages/admin/individualClients";
-import Benefits from "../pages/admin/benefits";
-import RiskCategories from "../pages/admin/riskCategories";
-import ProductTypes from "../pages/admin/productTypes";
-import RiskClasses from "../pages/admin/riskClasses";
-import CoverTypes from "../pages/admin/coverTypes";
-import UnderWriters from "../pages/admin/underWriters";
-import Users from "../pages/admin/users";
-import Promotions from "../pages/admin/promotions";
+// import IndividualClients from "../pages/admin/individualClients";
+// import Benefits from "../pages/admin/benefits";
+// import RiskCategories from "../pages/admin/riskCategories";
+// import ProductTypes from "../pages/admin/productTypes";
+// import RiskClasses from "../pages/admin/riskClasses";
+// import CoverTypes from "../pages/admin/coverTypes";
+// import UnderWriters from "../pages/admin/underWriters";
+// import Users from "../pages/admin/users";
+// import Promotions from "../pages/admin/promotions";
 
 //Student Components
 import Result from "../pages/student/result";
@@ -101,7 +101,7 @@ export const ThemeRoutesStudent = [
   },
   {
     path: "/students/subjectSubmit",
-    name: "Kế Hoạch Học Tập",
+    name: "Đăng Ký Học Tập",
     icon: "mdi mdi-account-circle",
     component: StudyPlan,
   },

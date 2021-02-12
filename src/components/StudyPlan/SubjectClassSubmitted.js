@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Steps, Input, Select, message, Modal } from "antd";
-import {
-  SearchOutlined,
-  EyeOutlined,
-  CalendarOutlined,
-  CloseSquareOutlined,
-  LoginOutlined,
-} from "@ant-design/icons";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import EducationProgram from "./EducationProgram";
-import SubjectSubmitted from "./SubjectSubmitted";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { Table, Button, Tag, Modal } from "antd";
+import { CloseSquareOutlined } from "@ant-design/icons";
 import "react-table/react-table.css";
-import { NavLink } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import axios from "axios";
-import { timeTable, daysOfWeek } from "./util";
-
-const { Option } = Select;
+import { daysOfWeek } from "./util";
 
 const SubjectClassSubmitted = (props) => {
   useEffect(() => {
@@ -84,8 +70,7 @@ const SubjectClassSubmitted = (props) => {
       align: "center",
       render: (text, record) => (
         <span>
-          {daysOfWeek[record.dayOfWeek]} (
-          {record.hourOfDay + "-" + (record.duration + record.hourOfDay - 1)})
+          {daysOfWeek[record.dayOfWeek]} ({record.hourOfDay + "-" + (record.duration + record.hourOfDay - 1)})
         </span>
       ),
     },
@@ -100,25 +85,28 @@ const SubjectClassSubmitted = (props) => {
       ),
     },
     {
-      title: "Max",
-      dataIndex: "numberOfSeats",
+      title: "Đợt đăng ký",
+      dataIndex: "progressSubmitted",
       align: "center",
-      render: (text, record) => (
-        <span>
-          <span>{text}</span>
-        </span>
-      ),
+      render: (text, record) => {
+        if (text === 21) {
+          return <span>Đăng ký chính thức</span>;
+        } else {
+          return <span>Đăng ký điều chỉnh</span>;
+        }
+      },
     },
-
     {
-      title: "ĐK",
-      dataIndex: "currentOfSubmittingNumber",
+      title: "Trạng thái",
+      dataIndex: "status",
       align: "center",
-      render: (text, record) => (
-        <span>
-          <span>{text}</span>
-        </span>
-      ),
+      render: (text, record) => {
+        if (text === 1) {
+          return <Tag color="green">Thành công</Tag>;
+        } else {
+          return <Tag color="#f50">Đã huỷ</Tag>;
+        }
+      },
     },
     {
       title: "Thao tác",
@@ -130,10 +118,11 @@ const SubjectClassSubmitted = (props) => {
             <Button
               type="primary"
               onClick={() => {
-                // handleSubmitSubjectClass(record);
+                props.handleDeleteSCS(record);
               }}
+              style={{ background: "#E65539", width: "105px" }}
             >
-              <LoginOutlined /> Đăng ký
+              <CloseSquareOutlined /> Huỷ
             </Button>
           </>
           // <Button
@@ -158,21 +147,22 @@ const SubjectClassSubmitted = (props) => {
   return (
     <>
       <Modal
-        title="Học phần đã đăng ký"
+        title="Lớp học phần đã đăng ký"
         visible={props.visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="50%"
+        width="70%"
         okText="Đóng"
         maskClosable={false}
       >
         <Table
           size="small"
           columns={columns}
-          pagination={{ size: "default" }}
+          pagination={false}
           dataSource={props.scsList}
           rowKey="subjectClassId"
           bordered
+          style={{ minHeight: "300px" }}
         />
       </Modal>
     </>

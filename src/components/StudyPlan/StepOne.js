@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Steps, Spin, Select, message } from "antd";
-import {
-  SearchOutlined,
-  EyeOutlined,
-  CalendarOutlined,
+import { Table, Button,   Spin,   message } from "antd";
+import { 
   LoginOutlined,
 } from "@ant-design/icons";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import EducationProgram from "./EducationProgram";
-import { connect } from "react-redux";
-import "react-table/react-table.css";
-import { NavLink } from "react-router-dom";
+import {   CardBody } from "reactstrap"; 
+import "react-table/react-table.css"; 
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import axios from "axios";
-
-const { Option } = Select;
+import axios from "axios"; 
 
 const StepOne = (props) => {
   const [subjectList, setSubjectList] = useState([]);
@@ -49,8 +41,7 @@ const StepOne = (props) => {
     {
       title: "Thao tác",
       dataIndex: "subjectName",
-      render: (text, record) => {
-        console.log(record);
+      render: (text, record) => { 
         return (
           <span style={{ textAlign: "center" }}>
             <Button
@@ -85,11 +76,12 @@ const StepOne = (props) => {
 
   useEffect(() => {
     let newList = [];
-    for (var i = 0; i < subjectList.length; i++) {
+    var i;
+    for ( i = 0; i < subjectList.length; i++) {
       newList.push(subjectList[i]);
       newList[i].submitted = false;
     }
-    for (var i = 0; i < props.submittedList.length; i++) {
+    for ( i = 0; i < props.submittedList.length; i++) {
       for (var j = 0; j < newList.length; j++) {
         if (props.submittedList[i].subjectId === newList[j].subjectId) {
           newList[i].submitted = true;
@@ -101,16 +93,20 @@ const StepOne = (props) => {
   return (
     <>
       <CardBody>
-      <Spin tip="Không diễn ra..." spinning={props.selectedItem.progress === 12 ? false : true}>
-      <Table
-          size="small"
-          pagination={{ size: "default" }}
-          columns={columns}
-          dataSource={subjectList}
-          rowKey="subjectId"
-        />
+        <Spin
+          tip="Chưa mở đăng ký kế hoạch học tập..."
+          spinning={props.selectedItem.progress === 12 ? false : true}
+          size="large"
+
+        >
+          <Table
+            size="small"
+            pagination={{ size: "default" }}
+            columns={columns}
+            dataSource={subjectList}
+            rowKey="subjectId"
+          />
         </Spin>
-         
       </CardBody>
     </>
   );

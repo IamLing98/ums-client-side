@@ -18,7 +18,7 @@ Main sidebar
   padding-top: 64px;
   background: $sidebar;
   box-shadow: $shadow;
-  transition: 0.2s ease-in;
+  transition: 0.2s ease-in; 
 }
 
 /*******************
@@ -36,6 +36,7 @@ sidebar navigation
         align-items: center;
         line-height: 25px;
         opacity: 1;
+        justify-content:center;
         cursor: pointer;
         i {
           font-style: normal;

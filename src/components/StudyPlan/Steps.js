@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, Button, message, Menu, PageHeader } from "antd";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import {
-  CloseOutlined,
-  EyeOutlined,
-  RollbackOutlined,
+import { Tabs,  message, Menu, PageHeader } from "antd";
+import { Card, CardTitle,  } from "reactstrap";
+import { 
   FundOutlined,
   AppstoreOutlined,
-  MailOutlined,
-  WindowsOutlined,
+  MailOutlined, 
 } from "@ant-design/icons";
 import "react-table/react-table.css";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
 import SubjectSubmitted from "./SubjectSubmitted";
 import EducationProgram from "./EducationProgram";
 import SubjectClassSubmitted from "./SubjectClassSubmitted";
-import axios from "axios";
-
-const { SubMenu } = Menu;
+import axios from "axios"; 
 
 const { TabPane } = Tabs;
 
@@ -76,10 +71,23 @@ const PlanSteps = (props) => {
           props.selectedItem.id
       )
       .then((res) => {
-        message.success("Đã xoá!!!", 2.5);
+        message.success("Đã huỷ!!!", 2.5);
         getListSubjectSubmitted();
       })
-      .catch((err) => message.success("Thất bại!!!", 2.5));
+      .catch((err) => message.error("Thất bại!!!", 2.5));
+  };
+
+  const handleDeleteSCS = (values) => {
+    console.log(values)
+    axios
+      .delete(
+        `/subjectClassRegistration/${term.activeSchedule}/${values.subjectClassId}`
+      )
+      .then((res) => {
+        message.success("Đã huỷ!!!", 2.5);
+        getListSubjectClassSubmitted();
+      })
+      .catch((err) => message.error("Thất bại!!!", 2.5));
   };
 
   const getEducationProgram = () => {
@@ -139,12 +147,13 @@ const PlanSteps = (props) => {
             }
           ></PageHeader>
         </CardTitle>
-        <Tabs defaultActiveKey="2" type="card" size={"small"}>
+        <Tabs defaultActiveKey="1" type="card" size={"small"}>
           <TabPane tab="Đăng ký kế hoạch học tập" key="1">
             <StepOne
               selectedItem={props.selectedItem}
               getListSubjectSubmitted={getListSubjectSubmitted}
               submittedList={submittedList}
+              term={term}
             />
           </TabPane>
           <TabPane tab="Đăng ký lớp học phần" key="2">
@@ -155,7 +164,11 @@ const PlanSteps = (props) => {
             />
           </TabPane>
           <TabPane tab="Đăng ký điều chỉnh" key="3">
-            {/* <StepThree   term={term} getTermDetail={getTermDetail} /> */}
+          <StepThree
+              term={term}
+              submittedList={scsList}
+              getListSubjectClassSubmitted={getListSubjectClassSubmitted}
+            />
           </TabPane>
         </Tabs>
       </Card>
@@ -169,11 +182,11 @@ const PlanSteps = (props) => {
         visible={showSSCListModal}
         setShowSCSListModal={setShowSCSListModal}
         scsList={scsList}
-        getListSubjectClassSubmitted={getListSubjectClassSubmitted}
-        // handleDeleteSS={handleDeleteSS}
+        getListSubjectClassSubmitted={getListSubjectClassSubmitted} 
+        handleDeleteSCS={handleDeleteSCS}
       />
       <EducationProgram
-        isModalVisible={showEducationProgramModal}
+        visible={showEducationProgramModal}
         setShowEducationProgramModal={setShowEducationProgramModal}
         educationProgramList={educationProgramList}
       />

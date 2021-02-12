@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Steps, Input, Select, message, Modal } from "antd";
 import {
-  SearchOutlined,
-  EyeOutlined,
-  CalendarOutlined,
-  CloseSquareOutlined,
+  Table,
+  Button,  
+  message, 
+  Spin 
+} from "antd";
+import { 
   LoginOutlined,
 } from "@ant-design/icons";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import EducationProgram from "./EducationProgram";
-import SubjectSubmitted from "./SubjectSubmitted";
-import { connect } from "react-redux";
-import "react-table/react-table.css";
-import { NavLink } from "react-router-dom";
+import {  CardBody } from "reactstrap"; 
+import "react-table/react-table.css"; 
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
 import axios from "axios";
-import { timeTable, daysOfWeek } from "./util";
-
-const { Option } = Select;
+import {   daysOfWeek } from "./util"; 
 
 const StepTwo = (props) => {
   const [scheduleInfo, setScheduleInfo] = useState([]);
@@ -29,8 +24,8 @@ const StepTwo = (props) => {
       .then((res) => {
         let submittedList = props.submittedList;
         let newList = res.data;
-        console.log("submttedList:,",submittedList.length)
-        console.log("sche:,",newList.length)
+        console.log("submttedList:,", submittedList.length);
+        console.log("sche:,", newList.length);
         for (var i = 0; i < submittedList.length; i++) {
           for (var j = 0; j < newList.length; j++) {
             if (submittedList[i].subjectId === newList[j].subjectId) {
@@ -48,7 +43,8 @@ const StepTwo = (props) => {
     let obj = {};
     obj.subjectClassId = values.subjectClassId;
     obj.termId = props.term.id;
-    obj.scheduleId = props.term.activeSchedule;
+    obj.scheduleId = props.term.activeSchedule; 
+    obj.scheduleSubjectClassId = values.scheduleSubjectClassId;
     axios
       .post(`/subjectClassRegistration`, obj)
       .then((res) => {
@@ -70,7 +66,8 @@ const StepTwo = (props) => {
     if (props.term) {
       console.log("get schedule");
       getSchedule(props.term.activeSchedule);
-    }}, [props.submittedList]);
+    }
+  }, [props.submittedList]);
 
   const columns = [
     {
@@ -176,25 +173,47 @@ const StepTwo = (props) => {
             onClick={() => {
               handleSubmitSubjectClass(record);
             }}
-            disabled={record.submitted === true ? true : false}
+            disabled={
+              record.submitted === true ||
+              record.currentOfSubmittingNumber >= record.numberOfSeats
+                ? true
+                : false
+            }
           >
-            <LoginOutlined /> Đăng ký
+            <LoginOutlined />{" "}
+            {record.currentOfSubmittingNumber >= record.numberOfSeats
+              ? "Đã đầy"
+              : "Đăng ký"}
           </Button>
         );
       },
     },
   ];
 
+  if (props.term == null) {
+    return (
+      <>
+        <CardBody>
+          <Spin tip="Không diễn ra..." spinning={true}></Spin>
+        </CardBody>
+      </>
+    );
+  }
   return (
     <>
       <CardBody>
-        <Table
-          size="small"
-          columns={columns}
-          pagination={{ size: "default" }}
-          dataSource={scheduleInfo}
-          rowKey="subjectClassId"
-        />
+        <Spin
+          tip="Không diễn ra..."
+          spinning={props.term.progress === 21 ? false : true}
+        >
+          <Table
+            size="small"
+            columns={columns}
+            pagination={{ size: "default" }}
+            dataSource={scheduleInfo}
+            rowKey="subjectClassId"
+          />
+        </Spin>
       </CardBody>
     </>
   );

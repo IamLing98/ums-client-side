@@ -1,7 +1,7 @@
 import {ACTION_TYPES} from './actions.js'
 
 const INIT_STATE = {
-    listTerm: 
+    listTerm: []
 }
 
 export default (state = INIT_STATE, action) => {

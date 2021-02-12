@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { List, Avatar, Button ,PageHeader} from "antd";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import View from "../../components/StudyPlan/Views";
+import { Card, CardTitle,  CardBody } from "reactstrap"; 
 import MakePlanSteps from "../../components/StudyPlan/Steps";
 import { EyeOutlined } from "@ant-design/icons";
 import axios from "../../api/index";

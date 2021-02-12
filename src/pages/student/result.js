@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button } from "antd"; 
-import { SearchOutlined } from '@ant-design/icons';
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import { connect } from "react-redux";
-import "react-table/react-table.css";
-import { NavLink } from "react-router-dom";
+import { Table, Button } from "antd";  
+import { Card, CardTitle, Row, Col, CardBody } from "reactstrap"; 
+import "react-table/react-table.css"; 
 
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
@@ -35,11 +32,7 @@ const columns = [
   },
 ];
 const Result = (props) => {
-  const [subjectList, setSubjectList] = useState([]);
-
-  const [page, setPage] = useState(0);
-
-  const [pageSize, setPageSize] = useState(10);
+  const [subjectList, setSubjectList] = useState([]); 
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 

@@ -13,8 +13,12 @@
   "keywords": [],
   "author": "Flag42",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "redux-logger" : "^3.0.6",
+    "redux-promise-middleware":"^6.1.2"
+  },
   "dependencies": {  
+    "redux-promise-middleware":"^6.1.2",
     "antd":"^4.6.1",
     "@ant-design/icons": "^4.2.2",
     "availity-reactstrap-validation": "^2.6.0",

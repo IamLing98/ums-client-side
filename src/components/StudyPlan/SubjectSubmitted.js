@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Button, Alert, Space, Table } from "antd";
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap";
-import {
-  SearchOutlined,
-  EyeOutlined,
-  CalendarOutlined,
-  LoginOutlined,
-} from "@ant-design/icons";
+import React, { useEffect  } from "react";
+import { Modal, Button,  Table } from "antd"; 
 
 const SubjectSubmitted = (props) => {
   const handleOk = () => {
@@ -82,7 +75,7 @@ const SubjectSubmitted = (props) => {
         visible={props.visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="50%"
+        width="70%" 
         okText="Đóng"
         forceRender
         maskClosable={false}
@@ -90,10 +83,11 @@ const SubjectSubmitted = (props) => {
           <Table
             size="small"
             columns={columns}
-            pagination={{ size: "default" }}
+            pagination={false}
             dataSource={props.submittedList}
             rowKey="subjectClassId"
             bordered
+            style={{minHeight:"300px"}}
           /> 
       </Modal>
     </>

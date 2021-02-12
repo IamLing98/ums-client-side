@@ -8,8 +8,7 @@ import {
 	FormGroup,
 	Form,
 	Row,
-	Col,
-	UncontrolledTooltip,
+	Col, 
 	Button
 } from 'reactstrap';
 import img1 from '../../assets/images/logo-icon.png';
