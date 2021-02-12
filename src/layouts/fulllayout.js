@@ -5,9 +5,9 @@ import Header from './layout-components/header/header';
 import Sidebar from './layout-components/sidebar/sidebar';
 import Footer from './layout-components/footer/footer';
 import {ThemeRoutesStudent} from '../routes/studentRoutes'; 
-import HeaderRoutes from '../routes/headerroutes';
-
+import HeaderRoutes from '../routes/headerroutes'; 
 import WebSocketContainer from "./WebSocketContainer";
+
 const mapStateToProps = (state) => ({
   ...state,
 });
