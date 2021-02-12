@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Nav, Navbar, NavbarBrand, Collapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import * as data from "./data";
+// import * as data from "./data";
 
+import { Badge } from "antd";
 /*--------------------------------------------------------------------------------*/
 /* Import images which are need for the HEADER                                    */
 /*--------------------------------------------------------------------------------*/
@@ -10,6 +11,10 @@ import logodarkicon from "../../../assets/images/logo-icon.png";
 import profilephoto from "../../../assets/images/users/1.jpg";
 import pduLogo from "../../../assets/images/pdu-logo.png";
 import { getListNotifications } from "../../../redux/notifications/notificationActions";
+import "./style.scss";
+import { BellOutlined } from "@ant-design/icons";
+import moment from "moment";
+import parse from 'html-react-parser';
 
 const mapStateToProps = (state) => ({
   ...state,
@@ -76,6 +81,7 @@ class Header extends React.Component {
   }
 
   render() {
+    const { notificationReducer } = this.props;
     return (
       <header className="topbar navbarbg" data-navbarbg={this.props.settings.activeNavbarBg}>
         <Navbar className={"top-navbar " + (this.props.settings.activeNavbarBg === "skin6" ? "navbar-light" : "navbar-dark")} expand="md">
@@ -155,8 +161,10 @@ class Header extends React.Component {
               {/* Start Notifications Dropdown                                                   */}
               {/*--------------------------------------------------------------------------------*/}
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  <i className="mdi mdi-bell font-24" />
+                <DropdownToggle nav caret style={{ textAlign: "center" }}>
+                  <Badge count={notificationReducer.notReadNumber}>
+                    <BellOutlined style={{ fontSize: "27px", color: "white" }} />
+                  </Badge>
                 </DropdownToggle>
                 <DropdownMenu right className="mailbox">
                   <span className="with-arrow">
@@ -165,12 +173,12 @@ class Header extends React.Component {
                   <div className="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                     <div className="">
                       <h4 className="mb-0">Thông báo</h4>
-                      <p className="mb-0">4 thông báo mới</p>
+                      <p className="mb-0">{notificationReducer.notReadNumber} thông báo mới</p>
                     </div>
                   </div>
-                  <div style={{maxHeight:"300px"}} className="message-center notifications">
+                  <div style={{ maxHeight: "300px" }} className="message-center notifications">
                     {/*<!-- Message -->*/}
-                    {this.props.notificationReducer.nofiticationsList.map((notification, index) => {
+                    {notificationReducer.nofiticationsList.map((notification, index) => {
                       return (
                         <span href="" className="message-item" key={index}>
                           {/* <span className={"btn btn-circle btn-" + notification.iconbg}>
@@ -178,8 +186,8 @@ class Header extends React.Component {
                           </span> */}
                           <div className="mail-contnet">
                             <h5 className="message-title">{notification.title}</h5>
-                            <span className="mail-desc">{notification.content}</span>
-                            <span className="time">{notification.time}</span>
+                            <span className="mail-desc">{parse(notification.content)}</span>
+                            <span className="time">{moment(notification.createdDate).format("hh:mm DD/MM/YYYY")}</span>
                           </div>
                         </span>
                       );

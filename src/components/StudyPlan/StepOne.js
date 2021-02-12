@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button,   Spin,   message } from "antd";
-import { 
-  LoginOutlined,
-} from "@ant-design/icons";
-import {   CardBody } from "reactstrap"; 
-import "react-table/react-table.css"; 
+import { Table, Button, Spin, message } from "antd";
+import { LoginOutlined } from "@ant-design/icons";
+import { CardBody } from "reactstrap";
+import "react-table/react-table.css";
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import axios from "axios"; 
+import axios from "axios";
 
 const StepOne = (props) => {
   const [subjectList, setSubjectList] = useState([]);
@@ -41,15 +39,11 @@ const StepOne = (props) => {
     {
       title: "Thao tác",
       dataIndex: "subjectName",
-      render: (text, record) => { 
+      render: (text, record) => {
         return (
           <span style={{ textAlign: "center" }}>
             <Button
-              disabled={
-                record.submitted === false && props.selectedItem.progress === 12
-                  ? false
-                  : true
-              }
+              disabled={record.submitted === false && props.selectedItem.progress === 12 ? false : true}
               onClick={() => handleSubmitSubject(record)}
               type="primary"
             >
@@ -77,11 +71,11 @@ const StepOne = (props) => {
   useEffect(() => {
     let newList = [];
     var i;
-    for ( i = 0; i < subjectList.length; i++) {
+    for (i = 0; i < subjectList.length; i++) {
       newList.push(subjectList[i]);
       newList[i].submitted = false;
     }
-    for ( i = 0; i < props.submittedList.length; i++) {
+    for (i = 0; i < props.submittedList.length; i++) {
       for (var j = 0; j < newList.length; j++) {
         if (props.submittedList[i].subjectId === newList[j].subjectId) {
           newList[i].submitted = true;
@@ -94,10 +88,17 @@ const StepOne = (props) => {
     <>
       <CardBody>
         <Spin
-          tip="Chưa mở đăng ký kế hoạch học tập..."
-          spinning={props.selectedItem.progress === 12 ? false : true}
+          tip={
+            props.term
+              ? props.term.progress < 12
+                ? "Chưa mở đăng ký học phần"
+                : props.term.progress > 12
+                ? "Đã đóng đăng ký học phần"
+                : ""
+              : ""
+          }
+          spinning={props.term ? (props.term.progress === 12 ? false : true) : true}
           size="large"
-
         >
           <Table
             size="small"
