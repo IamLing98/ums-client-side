@@ -2,20 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Tabs, message, Menu, PageHeader, Spin } from "antd";
 import { Card, CardTitle } from "reactstrap";
 import { FundOutlined, AppstoreOutlined, MailOutlined } from "@ant-design/icons";
-import "react-table/react-table.css";
+import axios from "axios";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
-import "react-phone-number-input/style.css";
-import "react-flags-select/css/react-flags-select.css";
 import SubjectSubmitted from "./SubjectSubmitted";
 import EducationProgram from "./EducationProgram";
 import SubjectClassSubmitted from "./SubjectClassSubmitted";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import "react-table/react-table.css";
+import "react-phone-number-input/style.css";
+import "react-flags-select/css/react-flags-select.css";
 
 const { TabPane } = Tabs;
 
 const PlanSteps = (props) => {
+  const user = useSelector((state) => state.authReducer.user);
+
   //subject submitted
   const [showSSModal, setShowSSModal] = useState(false);
 
@@ -24,14 +27,13 @@ const PlanSteps = (props) => {
   const [submittedList, setSubmittedList] = useState([]);
 
   //subjectClass submitted
-
   const [scsList, setSCSList] = useState([]);
 
   const [totalSubjectClassSubmitted, setTotalSubjectClassSubmitted] = useState(0);
 
   const [showSSCListModal, setShowSCSListModal] = useState(false);
 
-  const [educationProgramList, setEducationProgramList] = useState([]);
+  const [educationProgram, setEducationProgram] = useState([]);
 
   const [showEducationProgramModal, setShowEducationProgramModal] = useState(false);
 
@@ -122,7 +124,7 @@ const PlanSteps = (props) => {
     axios
       .get(`/education-programs/${id}`)
       .then((res) => {
-        setEducationProgramList(res.data);
+        setEducationProgram(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -132,7 +134,7 @@ const PlanSteps = (props) => {
   useEffect(() => {
     getSubjectList();
     getListSubjectSubmitted();
-    getEducationProgram();
+    getEducationProgram(user.educationProgramId);
     getTermDetail();
     getListSubjectClassSubmitted();
   }, []);
@@ -207,7 +209,7 @@ const PlanSteps = (props) => {
           <EducationProgram
             visible={showEducationProgramModal}
             setShowEducationProgramModal={setShowEducationProgramModal}
-            educationProgramList={educationProgramList}
+            educationProgram={educationProgram} 
           />
         </Spin>
       </Card>
