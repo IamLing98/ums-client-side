@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { List, Avatar, Button ,PageHeader} from "antd";
-import { Card, CardTitle,  CardBody } from "reactstrap"; 
+import { List, Avatar, Button, PageHeader } from "antd";
+import { Card, CardTitle, CardBody } from "reactstrap";
 import MakePlanSteps from "../../components/StudyPlan/Steps";
 import { EyeOutlined } from "@ant-design/icons";
-import axios from "../../api/index";
+import axios from "axios";
 
 const StudyPlan = (props) => {
   const [termList, setTermList] = useState([]);
@@ -28,7 +28,7 @@ const StudyPlan = (props) => {
     axios
       .get("/terms")
       .then((res) => {
-        setTermList(extractTermList(res));
+        setTermList(extractTermList(res.data));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -38,11 +38,7 @@ const StudyPlan = (props) => {
       <div>
         <Card>
           <CardTitle className="mb-0  border-bottom bg-light">
-            <PageHeader
-              className="site-page-header" 
-              title={"Danh sách học kỳ"} 
-              style={{height:"56px"}}
-            ></PageHeader>
+            <PageHeader className="site-page-header" title={"Danh sách học kỳ"} style={{ height: "56px" }}></PageHeader>
           </CardTitle>
           <CardBody>
             <List
@@ -63,9 +59,7 @@ const StudyPlan = (props) => {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://image.flaticon.com/icons/png/512/2191/2191186.png" />
-                    }
+                    avatar={<Avatar src="https://image.flaticon.com/icons/png/512/2191/2191186.png" />}
                     title={item.title}
                     description={item.description}
                   />
@@ -77,12 +71,7 @@ const StudyPlan = (props) => {
       </div>
     );
   } else if (selectedItem) {
-    return (
-      <MakePlanSteps
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      ></MakePlanSteps>
-    );
+    return <MakePlanSteps selectedItem={selectedItem} setSelectedItem={setSelectedItem}></MakePlanSteps>;
   } else return <></>;
 };
 
