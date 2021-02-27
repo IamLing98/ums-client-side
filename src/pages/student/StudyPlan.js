@@ -5,7 +5,7 @@ import MakePlanSteps from "../../components/StudyPlan/Steps";
 import { EyeOutlined } from "@ant-design/icons";
 import axios from "../../api/index";
 
-const SubjectSumit = (props) => {
+const StudyPlan = (props) => {
   const [termList, setTermList] = useState([]);
 
   const [selectedItem, setSelectedItem] = useState(null);
@@ -86,4 +86,4 @@ const SubjectSumit = (props) => {
   } else return <></>;
 };
 
-export default SubjectSumit;
+export default StudyPlan;

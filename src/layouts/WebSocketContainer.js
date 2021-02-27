@@ -38,26 +38,26 @@ class WebSocketContainer extends React.Component {
 
   handleMessageNotify(message) {
     // if (message.chatId !== this.props.currentChat || !this.props.isChatPage) {
-      // this.props.enqueueSnackbar(decryptMessage(message.text), {
-      //   variant: "info",
-      //   autoHideDuration: 3000,
-      //   anchorOrigin: {
-      //     vertical: "bottom",
-      //     horizontal: "right",
-      //   },
-      //   action: <button size="small">Open</button>,
-      // });
+    // this.props.enqueueSnackbar(decryptMessage(message.text), {
+    //   variant: "info",
+    //   autoHideDuration: 3000,
+    //   anchorOrigin: {
+    //     vertical: "bottom",
+    //     horizontal: "right",
+    //   },
+    //   action: <button size="small">Open</button>,
+    // });
     // } else {
-      // store.dispatch({
-      //   type: ADD_MESSAGE,
-      //   message: message,
-      // });
+    // store.dispatch({
+    //   type: ADD_MESSAGE,
+    //   message: message,
+    // });
     // }
     // store.dispatch({
     //   type: UPDATE_LAST_MESSAGE,
     //   chat: { id: message.chatId, lastMessage: message },
     // });
-    console.log(message)
+    console.log(message);
   }
 
   componentDidMount() {

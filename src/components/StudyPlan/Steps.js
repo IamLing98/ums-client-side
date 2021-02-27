@@ -118,9 +118,9 @@ const PlanSteps = (props) => {
       .catch((err) => message.error("Thất bại!!!", 2.5));
   };
 
-  const getEducationProgram = () => {
+  const getEducationProgram = (id) => {
     axios
-      .get("/education-programs")
+      .get(`/education-programs/${id}`)
       .then((res) => {
         setEducationProgramList(res.data);
       })
@@ -161,7 +161,7 @@ const PlanSteps = (props) => {
           ></PageHeader>
         </CardTitle>
         <Spin spinning={loading}>
-          <Tabs activeKey={defaultTab} type="card" size={"small"}>
+          <Tabs activeKey={defaultTab} type="card" size={"small"} onChange={(e) => setDefaultTab(e)}>
             <TabPane tab="Đăng ký kế hoạch học tập" key="1">
               <StepOne
                 selectedItem={props.selectedItem}
@@ -176,7 +176,7 @@ const PlanSteps = (props) => {
               <StepTwo
                 term={term}
                 submittedList={scsList}
-                getListSubjectClassSubmitted={getListSubjectClassSubmitted} 
+                getListSubjectClassSubmitted={getListSubjectClassSubmitted}
               />
             </TabPane>
             <TabPane tab="Đăng ký điều chỉnh" key="3">

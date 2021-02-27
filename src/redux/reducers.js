@@ -4,13 +4,16 @@ import chatReducer from "./chat/reducer";
 import clientReducer from "./client/reducer";
 import contactReducer from "./contacts/";
 import emailReducer from "./email/";
-import notificationReducer from "./notifications/notificationsReducer"; 
+import notificationReducer from "./notifications/notificationsReducer";
+import authReducer from "./auth/reducer";
+
 const reducers = combineReducers({
   settings,
   chatReducer,
   contactReducer,
   emailReducer,
   notificationReducer,
-  allClients: clientReducer, 
+  allClients: clientReducer,
+  authReducer: authReducer,
 });
 export default reducers;
