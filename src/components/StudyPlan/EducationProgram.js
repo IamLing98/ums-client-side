@@ -78,7 +78,7 @@ const EducationProgram = (props) => {
         let listSubject = [];
         for (var j = 0; j < props.educationProgram.subjectList.length; j++) {
           if (props.educationProgram.subjectList[j].term === i) {
-            listSubject.push({...props.educationProgram.subjectList[j]});
+            listSubject.push({ ...props.educationProgram.subjectList[j] });
           }
         }
         newListSj.push(listSubject);
@@ -95,10 +95,15 @@ const EducationProgram = (props) => {
         visible={props.visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="60%"
+        width="70%"
         okText="Đóng"
         forceRender
         maskClosable={false}
+        footer={
+          <>
+            <div style={{ width: "100%", padding: "0 7px", textAlign: "left", fontSize: "16px" }}></div>
+          </>
+        }
       >
         <Row>
           <Col md={12} style={{ display: "block" }}>

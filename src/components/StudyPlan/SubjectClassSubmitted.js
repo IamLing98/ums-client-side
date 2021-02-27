@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Tag, Modal } from "antd";
-import { CloseSquareOutlined } from "@ant-design/icons";
+import { Row, Col } from "reactstrap";
+import { CloseSquareOutlined, PrinterFilled } from "@ant-design/icons";
+import { daysOfWeek } from "./util";
+
 import "react-table/react-table.css";
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import { daysOfWeek } from "./util";
 
 const SubjectClassSubmitted = (props) => {
   const extractProgress = (value) => {
@@ -184,9 +186,18 @@ const SubjectClassSubmitted = (props) => {
         maskClosable={false}
         footer={
           <>
-            <div style={{ width: "100%", padding: "0 7px", textAlign: "left", fontSize: "16px" }}>
-              <strong>Tổng số tín chỉ: {props.totalSubjectClassSubmitted}</strong>{" "}
-            </div>
+            <Row>
+              <Col md={6}>
+                <div style={{ width: "100%", padding: "0 7px", textAlign: "left", fontSize: "16px" }}>
+                  <strong>Tổng số tín chỉ: {props.totalSubjectClassSubmitted}. ( Đã đóng học phí )</strong>
+                </div>
+              </Col>
+              <Col>
+                <Button type="primary">
+                  <PrinterFilled /> In Phiếu Thu
+                </Button>
+              </Col>
+            </Row>
           </>
         }
       >

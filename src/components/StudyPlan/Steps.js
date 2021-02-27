@@ -210,7 +210,7 @@ const PlanSteps = (props) => {
             visible={showEducationProgramModal}
             setShowEducationProgramModal={setShowEducationProgramModal}
             educationProgram={educationProgram} 
-          />
+          /> 
         </Spin>
       </Card>
     </div>
