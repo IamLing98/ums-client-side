@@ -4,7 +4,7 @@ import { Card, CardTitle, CardBody, Row, Col } from "reactstrap";
 import MakePlanSteps from "../../components/StudyPlan/Steps";
 import { EyeOutlined } from "@ant-design/icons";
 import axios from "axios";
-// import Calendar from "../../components/Schedule/calendar";
+import Calendar from "../../components/Schedule/Calendar";
 
 const Schedule = (props) => {
   const [termList, setTermList] = useState([]);
@@ -55,7 +55,7 @@ const Schedule = (props) => {
                 </Select>
               </Col>
             </Row>
-            {/* <Calendar   /> */}
+            <Calendar   />
           </CardBody>
         </Card>
       </div>

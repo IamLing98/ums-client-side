@@ -1,14 +1,10 @@
 import { combineReducers } from "redux";
-import settings from "./settings/reducer";
-import chatReducer from "./chat/reducer";
-import emailReducer from "./email/";
+import settings from "./settings/reducer"; 
 import notificationReducer from "./notifications/notificationsReducer";
 import authReducer from "./auth/reducer";
 
 const reducers = combineReducers({
-  settings,
-  chatReducer,
-  emailReducer,
+  settings, 
   notificationReducer,
   authReducer: authReducer,
 });
