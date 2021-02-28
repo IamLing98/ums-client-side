@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FullCalendar, { EventApi, DateSelectArg, EventClickArg, EventContentArg, formatDate } from "@fullcalendar/react";
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -78,6 +78,24 @@ const Calendar = (props) => {
         }}
         initialView="timeGridWeek"
         editable={true}
+        //custom
+        hiddenDays={[0, 6]}
+        dateAlignment="week"
+        dayHeaderFormat={(values) => {
+          console.log("values: ", values);
+          switch (values.date.day) {
+            case 1:
+              return ["Thứ hai"];
+            case 2:
+              return ["Thứ ba"];
+            case 3:
+              return ["Thứ tư"];
+            case 4:
+              return ["Thứ năm"];
+            case 5:
+              return ["Thứ sáu"];
+          }
+        }}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
