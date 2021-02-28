@@ -5,7 +5,7 @@ import "react-table/react-table.css";
 
 import "react-phone-number-input/style.css";
 import "react-flags-select/css/react-flags-select.css";
-import axios from "../../api/index";
+import axios from "axios";
 
 const columns = [
   {
