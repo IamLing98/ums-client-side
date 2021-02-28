@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Table, Divider, Select } from "antd";
-import { Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap"; 
 
 const EducationProgram = (props) => {
   const [educationProgram, setEducationProgram] = useState(null);
 
-  const [currentTerm, setCurrentTerm] = useState(1);
+  const [currentTerm, setCurrentTerm] = useState(null);
 
   const [listSubjectWithTerm, setListSubjectWithTerm] = useState([]);
 
@@ -78,7 +78,7 @@ const EducationProgram = (props) => {
         let listSubject = [];
         for (var j = 0; j < props.educationProgram.subjectList.length; j++) {
           if (props.educationProgram.subjectList[j].term === i) {
-            listSubject.push({...props.educationProgram.subjectList[j]});
+            listSubject.push({ ...props.educationProgram.subjectList[j] });
           }
         }
         newListSj.push(listSubject);
@@ -95,10 +95,15 @@ const EducationProgram = (props) => {
         visible={props.visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        width="60%"
+        width="70%"
         okText="Đóng"
         forceRender
         maskClosable={false}
+        footer={
+          <>
+            <div style={{ width: "100%", padding: "0 7px", textAlign: "left", fontSize: "16px" }}></div>
+          </>
+        }
       >
         <Row>
           <Col md={12} style={{ display: "block" }}>
@@ -126,7 +131,7 @@ const EducationProgram = (props) => {
                     console.log("datasource: ", listSubjectWithTerm[term - 1]);
                     setSubjectDataSource(listSubjectWithTerm[term - 1]);
                   }}
-                  style={{ width: "50%" }}
+                  style={{ width: "50%" }} 
                 >
                   {listSubjectWithTerm.map((term, index) => (
                     <Select.Option key={"termListasdsa" + index} value={index + 1}>

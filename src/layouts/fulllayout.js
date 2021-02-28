@@ -4,10 +4,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Header from "./layout-components/header/header";
 import Sidebar from "./layout-components/sidebar/sidebar";
 import Footer from "./layout-components/footer/footer";
-import { ThemeRoutesStudent } from "../routes/studentRoutes";
-import HeaderRoutes from "../routes/headerroutes";
+import { ThemeRoutesStudent } from "../routes/studentRoutes"; 
 import WebSocketContainer from "./WebSocketContainer";
-import PrivateRoute from "../routes/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 import { getStudentDetail, getTeacherDetail } from "../redux/auth/reducer";
 import { getListNotifications } from "../redux//notifications/notificationActions";
 
@@ -40,7 +39,7 @@ class Fulllayout extends React.Component {
     if (authReducer.isLogin) {
       this.props.getListNotifications();
       let user = JSON.parse(localStorage.getItem("user"));
-      if ( user) { 
+      if (user) {
         if (user.roleDTO) {
           let { roleDTO } = user;
           if (roleDTO.roleId === 2) {
@@ -109,7 +108,7 @@ class Fulllayout extends React.Component {
         {/*--------------------------------------------------------------------------------*/}
         {/* Header                                                                         */}
         {/*--------------------------------------------------------------------------------*/}
-        <Header {...this.props} routes={HeaderRoutes} />
+        <Header {...this.props}  />
         {/*--------------------------------------------------------------------------------*/}
         {/* Sidebar                                                                        */}
         {/*--------------------------------------------------------------------------------*/}
@@ -121,10 +120,7 @@ class Fulllayout extends React.Component {
           <div className="companysetup-mainwrapper">
             <div className="page-wrapper d-block maincontent-wrapper">
               <div className="page-content container-fluid">
-                <Switch>
-                  {HeaderRoutes.map((prop, key) => {
-                    return <Route path={prop.path} key={key} component={prop.component} />;
-                  })}
+                <Switch> 
                   {ThemeRoutesStudent.map((prop, key) => {
                     if (prop.navlabel) {
                       return null;
@@ -152,10 +148,7 @@ class Fulllayout extends React.Component {
           <div className="page-wrapper d-block">
             <div className="page-content container-fluid">
               {isLogin && <WebSocketContainer />}
-              <Switch>
-                {HeaderRoutes.map((prop, key) => {
-                  return <Route path={prop.path} key={key} component={prop.component} />;
-                })}
+              <Switch> 
                 {ThemeRoutesStudent.map((prop, key) => {
                   if (prop.navlabel) {
                     return null;
