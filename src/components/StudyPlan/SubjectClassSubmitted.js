@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Tag, Modal } from "antd";
 import { Row, Col } from "reactstrap";
-import { CloseSquareOutlined, PrinterFilled } from "@ant-design/icons";
+import { CloseSquareOutlined } from "@ant-design/icons";
 import { daysOfWeek } from "./util";
 
 import "react-table/react-table.css";
@@ -193,9 +193,9 @@ const SubjectClassSubmitted = (props) => {
                 </div>
               </Col>
               <Col>
-                <Button type="primary">
+                {/* <Button type="primary">
                   <PrinterFilled /> In Phiếu Thu
-                </Button>
+                </Button> */}
               </Col>
             </Row>
           </>

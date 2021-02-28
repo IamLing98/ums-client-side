@@ -1,8 +1,4 @@
-import Classic from "../views/dashboards/classic";
-// import Starterkit from "../views/sample-pages/starter-kit";
-// import Searchresult from "../views/sample-pages/search-result";
-import CompanyClients from "../pages/admin/companyClients";
-// import IndividualClients from "../pages/admin/individualClients";
+ // import IndividualClients from "../pages/admin/individualClients";
 // import Benefits from "../pages/admin/benefits";
 // import RiskCategories from "../pages/admin/riskCategories";
 // import ProductTypes from "../pages/admin/productTypes";
@@ -13,8 +9,10 @@ import CompanyClients from "../pages/admin/companyClients";
 // import Promotions from "../pages/admin/promotions";
 
 //Student Components
-import Result from "../pages/student/result";
+import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
+import Schedule from '../pages/student/Schedule';
+
 
 //techer Component
 // import ResultManagement from "../pages/teacher/resultManagement"; 
@@ -29,13 +27,13 @@ export const ThemeRoutesStudent = [
     path: "/dashboards/classic",
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
-    component: Classic,
+    component: Result,
   }, 
   {
     path: "/dashboards/claims",
     name: "Chương Trình Đào Tạo",
     icon: "mdi mdi-loop",
-    component: Classic,
+    component: Result,
   },
   {
     path: "/students/subjectSubmit",
@@ -44,10 +42,10 @@ export const ThemeRoutesStudent = [
     component: StudyPlan,
   },
   {
-    path: "/clients/cClients",
+    path: "/students/schedule",
     name: "Thời Khoá Biểu",
     icon: "mdi mdi-contacts",
-    component: CompanyClients,
+    component: Schedule,
   },
   {
     path: "/students/result",
@@ -59,13 +57,13 @@ export const ThemeRoutesStudent = [
     path: "/dashboards/policies",
     name: "Sửa Lý Lịch",
     icon: "mdi mdi-file-document",
-    component: Classic,
+    component: Result,
   },
   {
     path: "/dashboards/claims",
     name: "Xin Giấy Xác Nhận",
     icon: "mdi mdi-loop",
-    component: Classic,
+    component: Result,
   }, 
   //   {
   //     collapse: true,

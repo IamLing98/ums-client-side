@@ -3,8 +3,7 @@ import { PrinterFilled, RollbackOutlined } from "@ant-design/icons";
 import { Spin, Modal } from "antd";
 import { Viewer } from "@react-pdf-viewer/core";
 import { printPlugin } from "@react-pdf-viewer/print";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import { api } from "Api";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout"; 
 
 const InvoicePrint = (props) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -23,16 +22,7 @@ const InvoicePrint = (props) => {
     <Modal
       title="In phiếu thu"
       visible={props.visible}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            handleSubmitForm(values);
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
+      onOk={() => { 
       }}
       onCancel={() => {
         // form.validateFields();
@@ -56,10 +46,10 @@ const InvoicePrint = (props) => {
       forceRender
     >
       <Spin spinning={loading}>
-        <Viewer
+        {/* <Viewer
           plugins={[printPluginInstance, defaultLayoutPluginInstance]}
           fileUrl={`http://localhost:8080/downloadFile/${props.filePrintName}`}
-        />
+        /> */}
       </Spin>
     </Modal>
   );

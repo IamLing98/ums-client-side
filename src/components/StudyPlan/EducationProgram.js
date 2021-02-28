@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Table, Divider, Select } from "antd";
-import { Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap"; 
 
 const EducationProgram = (props) => {
   const [educationProgram, setEducationProgram] = useState(null);
 
-  const [currentTerm, setCurrentTerm] = useState(1);
+  const [currentTerm, setCurrentTerm] = useState(null);
 
   const [listSubjectWithTerm, setListSubjectWithTerm] = useState([]);
 
@@ -131,7 +131,7 @@ const EducationProgram = (props) => {
                     console.log("datasource: ", listSubjectWithTerm[term - 1]);
                     setSubjectDataSource(listSubjectWithTerm[term - 1]);
                   }}
-                  style={{ width: "50%" }}
+                  style={{ width: "50%" }} 
                 >
                   {listSubjectWithTerm.map((term, index) => (
                     <Select.Option key={"termListasdsa" + index} value={index + 1}>
