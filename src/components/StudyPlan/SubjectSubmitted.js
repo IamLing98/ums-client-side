@@ -57,7 +57,7 @@ const SubjectSubmitted = (props) => {
   useEffect(() => {
     if (props.term) {
       if (props.term.progress === 12) {
-        let newCl = [...columnsState]; 
+        let newCl = [...columnsState];
         newCl.push({
           title: "Thao tác",
           dataIndex: "numberOfSeats",
@@ -78,7 +78,7 @@ const SubjectSubmitted = (props) => {
             );
           },
         });
-        setColumnsState([...newCl]); 
+        setColumnsState([...newCl]);
       }
     }
   }, [props.isModalVisible, props.term]);

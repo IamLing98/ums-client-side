@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Table, Divider, Select } from "antd";
-import { Row, Col } from "reactstrap"; 
+import { Row, Col } from "reactstrap";
 
 const EducationProgram = (props) => {
   const [educationProgram, setEducationProgram] = useState(null);
@@ -107,22 +107,25 @@ const EducationProgram = (props) => {
       >
         <Row>
           <Col md={12} style={{ display: "block" }}>
-            <Divider orientation="left">Thông tin chương trình đào tạo</Divider>
-            <Table
-              bordered
-              rowKey="title"
-              showHeader={false}
-              pagination={false}
-              columns={educationColumn}
-              dataSource={educationData ? educationData : []}
-            />
+            <Divider orientation="center">Thông tin chương trình đào tạo</Divider>
           </Col>
+        </Row>
+        <Row style={{ display: "flex", justifyContent: "center" }}>
+          <Table
+            size="small"
+            bordered
+            rowKey="title"
+            showHeader={false}
+            pagination={false}
+            columns={educationColumn}
+            dataSource={educationData ? educationData : []}
+          />
         </Row>
         <Row>
           <Col md={12} style={{ display: "block" }}>
-            <Divider orientation="left">Danh mục học phần</Divider>
+            <Divider orientation="center">Danh mục học phần</Divider>
             <Row style={{ marginBottom: "15px" }}>
-              <Col>
+              <Col style={{ display: "flex", justifyContent: "center" }}>
                 <Select
                   placeholder="Kỳ học..."
                   value={currentTerm}
@@ -131,7 +134,7 @@ const EducationProgram = (props) => {
                     console.log("datasource: ", listSubjectWithTerm[term - 1]);
                     setSubjectDataSource(listSubjectWithTerm[term - 1]);
                   }}
-                  style={{ width: "50%" }} 
+                  style={{ width: "50%" }}
                 >
                   {listSubjectWithTerm.map((term, index) => (
                     <Select.Option key={"termListasdsa" + index} value={index + 1}>

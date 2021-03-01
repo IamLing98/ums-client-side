@@ -228,7 +228,7 @@ class Header extends React.Component {
                 {/*--------------------------------------------------------------------------------*/}
                 {/* Start Profile Dropdown                                                         */}
                 {/*--------------------------------------------------------------------------------*/}
-                {role ? (
+                {role && user ? (
                   role === ROLE.STUDENT ? (
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav caret className="pro-pic">

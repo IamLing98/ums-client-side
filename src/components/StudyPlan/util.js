@@ -1,4 +1,3 @@
-
 export const daysOfWeek = ["", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu"];
 
 export const timeTable = [
@@ -41,5 +40,52 @@ export const timeTable = [
   {
     start: "16h30'",
     end: "17h20'",
+  },
+];
+
+export const timeNumberTable = [
+  {
+    start: { hour: 7, min: 0, s: 0 },
+    end: { hour: 7, min: 50, s: 0 },
+  },
+  {
+    start: { hour: 7, min: 55, s: 0 },
+    end: { hour: 8, min: 45, s: 0 },
+  },
+  {
+    start: { hour: 8, min: 55, s: 0 },
+    end: { hour: 9, min: 45, s: 0 },
+  },
+  {
+    start: { hour: 9, min: 40, s: 0 },
+    end: { hour: 10, min: 40, s: 0 },
+  },
+  {
+    start: { hour: 8, min: 55, s: 0 },
+    end: { hour: 9, min: 45, s: 0 },
+  },
+  {
+    start: { hour: 10, min: 50, s: 0 },
+    end: { hour: 44, min: 40, s: 0 },
+  },
+  {
+    start: { hour: 12, min: 30, s: 0 },
+    end: { hour: 13, min: 20, s: 0 },
+  },
+  {
+    start: { hour: 13, min: 25, s: 0 },
+    end: { hour: 14, min: 15, s: 0 },
+  },
+  {
+    start: { hour: 14, min: 25, s: 0 },
+    end: { hour: 15, min: 15, s: 0 },
+  },
+  {
+    start: { hour: 15, min: 20, s: 0 },
+    end: { hour: 16, min: 20, s: 0 },
+  },
+  {
+    start: { hour: 16, min: 30, s: 0 },
+    end: { hour: 17, min: 20, s: 0 },
   },
 ];
