@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import axios from "axios";
+import moment from "moment";
+import { timeNumberTable } from "../StudyPlan/util";
+
+// buoc 1: tao 1 new date,
+// buoc 2: tim ngay bat dau trong tuan tu new date ngay
+// buoc 3: tu ngay nay, + voi ngay dien radio
+// buoc 4 tao cac event,
+
+//
+
+//new Date that is start of Week
+var startOfWeek = moment().startOf("week").toDate();
 
 let eventGuid = 0;
+
 let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
 export const INITIAL_EVENTS = [
@@ -13,29 +27,29 @@ export const INITIAL_EVENTS = [
     title: "All-day event",
     start: todayStr,
   },
-  {
-    id: createEventId(),
-    title: "Timed event",
-    start: todayStr + "T12:00:00",
-    end: todayStr + "T14:00:00",
-  },
+  { id: 0, title: "Marketing căn bản", start: "2021-03-02T07:00:00", end: "2021-03-02T09:45:00" },
+  { id: 1, title: "Phương pháp tính", start: "2021-03-05T14:25:00", end: "2021-03-05T17:20:00" },
+  { id: 2, title: "Tiếng Anh cơ bản (GE 4) ", start: "2021-03-04T07:00:00", end: "2021-03-04T09:45:00" },
+  { id: 3, title: "Phương pháp nghiên cứu khoa học", start: "2021-03-02T13:25:00", end: "2021-03-02T16:20:00" },
 ];
 
 export function createEventId() {
   return String(eventGuid++);
 }
-function renderEventContent(eventContent) {
-  return (
-    <>
-      <b>{eventContent.timeText}</b>
-      <i>{eventContent.event.title}</i>
-    </>
-  );
-}
 
 const Calendar = (props) => {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
+
   const [currentEvents, setCurrentEvents] = useState([]);
+
+  const renderEventContent = (eventContent) => {
+    return (
+      <>
+        <b>{eventContent.timeText}</b>
+        <i>{eventContent.event.title}</i>
+      </>
+    );
+  };
 
   const handleWeekendsToggle = () => {
     setWeekendsVisible((value) => (value = !value));
@@ -67,6 +81,9 @@ const Calendar = (props) => {
   const handleEvents = (events) => {
     setCurrentEvents(events);
   };
+
+  useEffect(() => { 
+  }, [props.eventList]);
   return (
     <div style={{ marginTop: "15px" }}>
       <FullCalendar
@@ -82,7 +99,6 @@ const Calendar = (props) => {
         hiddenDays={[0, 6]}
         dateAlignment="week"
         dayHeaderFormat={(values) => {
-          console.log("values: ", values);
           switch (values.date.day) {
             case 1:
               return ["Thứ hai"];
@@ -96,11 +112,15 @@ const Calendar = (props) => {
               return ["Thứ sáu"];
           }
         }}
+        slotDuration="00:30:00"
+        slotMinTime="07:00:00"
+        slotMaxTime="18:00:00"
+        //end custom
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
         weekends={weekendsVisible}
-        initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+        initialEvents={props.eventList} // alternatively, use the `events` setting to fetch from a feed
         select={handleDateSelect}
         eventContent={renderEventContent} // custom render function
         eventClick={handleEventClick}
