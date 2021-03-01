@@ -1,88 +1,87 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button } from "antd";  
-import { Card, CardTitle, Row, Col, CardBody } from "reactstrap"; 
-import "react-table/react-table.css"; 
-
-import "react-phone-number-input/style.css";
-import "react-flags-select/css/react-flags-select.css";
+import React, { useEffect, useState } from "react";
+import { Divider, Avatar, Button, Select, PageHeader } from "antd";
+import { Card, CardTitle, CardBody } from "reactstrap";
+import MakePlanSteps from "../../components/StudyPlan/Steps";
+import { EyeOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Row, Col } from "reactstrap";
+import ResultTable from "../../components/Result/Result";
+import EducationProgram from "../../components/Result/EducationProgramDetail";
 
-const columns = [
-  {
-    title: "Mã học phần",
-    dataIndex: "subjectId",
-  },
-  {
-    title: "Tên học phần",
-    dataIndex: "subjectName",
-  },
-  {
-    title: "Đánh giá",
-    dataIndex: "subjectName", 
-    render: (text, record) => {
-        return <span>A</span>
-      },
-  },
-  {
-    title: "Thao tác",
-    dataIndex: "subjectName",
-    render: (text, record) => {
-      return <span><Button type="primary">Xem chi tiết</Button></span>
-    },
-  },
-];
 const Result = (props) => {
-  const [subjectList, setSubjectList] = useState([]); 
+  const [termList, setTermList] = useState([]);
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const onSelectChange = (selectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
-    setSelectedRowKeys(selectedRowKeys)
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange:e =>  onSelectChange(e),
+  const extractTermList = (termList = []) => {
+    termList.forEach(function (item) {
+      item.title = "Học kỳ " + item.term + " năm " + item.year;
+      if (item.status === 1) {
+        item.description = "Đang diễn ra";
+      } else if (item.status === 2) {
+        item.description = "Học kỳ sắp tới";
+      } else {
+        item.description = "Đã kết thúc";
+      }
+    });
+    return termList;
   };
 
   useEffect(() => {
     axios
-      .get("/subjects", true)
+      .get("/terms")
       .then((res) => {
-        setSubjectList(res.data);
+        setTermList(extractTermList(res.data));
       })
       .catch((err) => console.log(err));
   }, []);
 
-  return (
-    <div>
-      <Card>
-        <CardTitle className="mb-0 p-3 border-bottom bg-light">
-          <Row>
-            <Col sm="6">
-              <i className="mdi mdi-border-right mr-2"></i>Kết quả học tập
-            </Col>
-            <Col sm="6" className="text-right">
-              <Button 
-              type="primary"
+  if (selectedItem === null) {
+    return (
+      <div>
+        <Card>
+          <CardTitle className="mb-0  border-bottom bg-light">
+            <PageHeader className="site-page-header" title={"Kết quả học tập"} style={{ height: "56px" }}></PageHeader>
+          </CardTitle>
+          <CardBody>
+            <Row>
+              <Col md={12}>
+                <Divider orientation="center">Chương trình đào tạo</Divider>
+                <EducationProgram />
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <Divider orientation="center">Kết quả học tập</Divider>
+              </Col>
+            </Row>
+            <Row style={{ display: "flex", justifyContent: "center" }}>
+              <Select
+                style={{ width: "20%" }}
+                placeholder="Học kỳ..."
+                value={selectedItem}
+                onChange={(value) => setSelectedItem(value)}
               >
-                Xem CTDT
-              </Button>
-            </Col>
-          </Row>
-        </CardTitle>
-        <CardBody>
-          <Table
-            rowSelection={rowSelection}
-            columns={columns}
-            dataSource={subjectList}
-            rowKey="subjectId"
-          />
-        </CardBody>
-      </Card>
-    </div>
-  );
+                <Select.Option value={null} key={"termOptsSchedulenull"}>
+                  Xem toàn bộ chương trình
+                </Select.Option>
+                {termList.map((term, index) => {
+                  return (
+                    <Select.Option value={term.id} key={"termOptsSchedule" + index}>
+                      {"Học kỳ " + term.term + " năm " + term.year}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Row>
+            <ResultTable />
+          </CardBody>
+        </Card>
+      </div>
+    );
+  } else if (selectedItem) {
+    return <MakePlanSteps selectedItem={selectedItem} setSelectedItem={setSelectedItem}></MakePlanSteps>;
+  } else return <></>;
 };
 
 export default Result;

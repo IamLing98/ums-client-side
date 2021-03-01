@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { List, Avatar, Button, Select, PageHeader } from "antd";
+import { Select, PageHeader } from "antd";
 import { Card, CardTitle, CardBody, Row, Col } from "reactstrap";
-import MakePlanSteps from "../../components/StudyPlan/Steps";
-import { EyeOutlined } from "@ant-design/icons";
 import axios from "axios";
 import moment from "moment";
 import { timeNumberTable } from "../../components/StudyPlan/util";
@@ -17,18 +15,12 @@ export function createEventId() {
   return String(eventGuid++);
 }
 
-let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
-
 const Schedule = (props) => {
   const [termList, setTermList] = useState([]);
 
   const [selectedItem, setSelectedItem] = useState(null);
 
   const [eventList, setEventList] = useState([]);
-
-  const [totalSubjectClassSubmitted, setTotalSubjectClassSubmitted] = useState(0);
-
-  const [scsList, setSCSList] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -40,13 +32,7 @@ const Schedule = (props) => {
   };
 
   const processSubjectClassList = (subjectClassList) => {
-    let events = [
-      {
-        id: createEventId(),
-        title: "All-day event",
-        start: todayStr,
-      },
-    ];
+    let events = [];
     subjectClassList.forEach((subjectClass, index) => {
       let hourOfDay = parseInt(subjectClass.hourOfDay);
       let duration = parseInt(subjectClass.duration);
@@ -62,6 +48,7 @@ const Schedule = (props) => {
         title: subjectClass.subjectName,
         start: moment(start).format("YYYY-MM-DDTHH:mm:ss"),
         end: moment(end).format("YYYY-MM-DDTHH:mm:ss"),
+        roomId: subjectClass.roomId,
       };
       events.push(newEvent);
     });
@@ -69,18 +56,17 @@ const Schedule = (props) => {
   };
 
   const getListSubjectClassSubmitted = () => {
+    setLoading(true);
     axios
-      .get("/subjectClassRegistration/20202?status=1")
+      .get(`/subjectClassRegistration/${selectedItem}?status=1`)
       .then((res) => {
         let { data } = res;
-        setSCSList(data.listSubjectClass);
-        setTotalSubjectClassSubmitted(data.totalSubjectClass);
         let events = processSubjectClassList(data.listSubjectClass);
         console.log("events:", events);
         setEventList([...events]);
-        setLoading(false);
       })
       .catch((err) => console.log(err));
+    setTimeout(() => setLoading(false), 100);
   };
 
   useEffect(() => {
@@ -93,8 +79,8 @@ const Schedule = (props) => {
   }, []);
 
   useEffect(() => {
-    getListSubjectClassSubmitted();
-  }, []);
+    getListSubjectClassSubmitted(selectedItem);
+  }, [selectedItem]);
 
   useEffect(() => {
     console.log("eventsLisT:", eventList);
@@ -113,7 +99,12 @@ const Schedule = (props) => {
             <CardBody>
               <Row>
                 <Col md={12}>
-                  <Select style={{ width: "20%" }} placeholder="Học kỳ..." value={selectedItem}>
+                  <Select
+                    style={{ width: "20%" }}
+                    placeholder="Học kỳ..."
+                    value={selectedItem}
+                    onChange={(value) => setSelectedItem(value)}
+                  >
                     {termList.map((term, index) => {
                       return (
                         <Select.Option value={term.id} key={"termOptsSchedule" + index}>
