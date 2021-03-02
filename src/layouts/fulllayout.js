@@ -4,9 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Header from "./layout-components/header/header";
 import Sidebar from "./layout-components/sidebar/sidebar";
 import Footer from "./layout-components/footer/footer";
-import { ThemeRoutesStudent } from "../routes/studentRoutes";
-import { ThemeRoutesTeacher } from "../routes/teacherRoutes";
-import { ROLE } from "../redux/auth/reducer";
+import { ThemeRoutesStudent } from "../routes/studentRoutes"; 
 import WebSocketContainer from "./WebSocketContainer";
 import PrivateRoute from "./PrivateRoute";
 import { getStudentDetail, getTeacherDetail } from "../redux/auth/reducer";
@@ -96,9 +94,6 @@ class Fulllayout extends React.Component {
     /*--------------------------------------------------------------------------------*/
 
     const { isLogin } = this.props.authReducer;
-
-    const role = this.props.authReducer.role;
-    console.log("role:", role);
     return (
       <div
         id="main-wrapper"
@@ -113,7 +108,7 @@ class Fulllayout extends React.Component {
         {/*--------------------------------------------------------------------------------*/}
         {/* Header                                                                         */}
         {/*--------------------------------------------------------------------------------*/}
-        <Header {...this.props} />
+        <Header {...this.props}  />
         {/*--------------------------------------------------------------------------------*/}
         {/* Sidebar                                                                        */}
         {/*--------------------------------------------------------------------------------*/}
@@ -121,74 +116,66 @@ class Fulllayout extends React.Component {
         {/*--------------------------------------------------------------------------------*/}
         {/* Page Main-Content                                                              */}
         {/*--------------------------------------------------------------------------------*/}
-        <div className="page-wrapper d-block">
-          <div className="page-content container-fluid">
-            {isLogin && <WebSocketContainer />}
-            <Switch>
-              {role
-                ? role === ROLE.STUDENT
-                  ? ThemeRoutesStudent.map((prop, key) => {
-                      if (prop.navlabel) {
-                        return null;
-                      } else if (prop.collapse) {
-                        return prop.child.map((prop2, key2) => {
-                          if (prop2.collapse) {
-                            return prop2.subchild.map((prop3, key3) => {
-                              return (
-                                <PrivateRoute
-                                  isLogin={isLogin}
-                                  path={prop3.path}
-                                  component={prop3.component}
-                                  key={key3}
-                                />
-                              );
-                            });
-                          }
-                          return (
-                            <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
-                          );
-                        });
-                      } else if (prop.redirect) {
-                        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                      } else {
-                        return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
-                      }
-                    })
-                  : role === ROLE.STUDENT
-                  ? ThemeRoutesTeacher.map((prop, key) => {
-                      if (prop.navlabel) {
-                        return null;
-                      } else if (prop.collapse) {
-                        return prop.child.map((prop2, key2) => {
-                          if (prop2.collapse) {
-                            return prop2.subchild.map((prop3, key3) => {
-                              return (
-                                <PrivateRoute
-                                  isLogin={isLogin}
-                                  path={prop3.path}
-                                  component={prop3.component}
-                                  key={key3}
-                                />
-                              );
-                            });
-                          }
-                          return (
-                            <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
-                          );
-                        });
-                      } else if (prop.redirect) {
-                        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                      } else {
-                        return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
-                      }
-                    })
-                  : ""
-                : ""}
-            </Switch>
+        {this.props.location.pathname === "/admin/companysetup" ? (
+          <div className="companysetup-mainwrapper">
+            <div className="page-wrapper d-block maincontent-wrapper">
+              <div className="page-content container-fluid">
+                <Switch> 
+                  {ThemeRoutesStudent.map((prop, key) => {
+                    if (prop.navlabel) {
+                      return null;
+                    } else if (prop.collapse) {
+                      return prop.child.map((prop2, key2) => {
+                        if (prop2.collapse) {
+                          return prop2.subchild.map((prop3, key3) => {
+                            return <Route path={prop3.path} component={prop3.component} key={key3} />;
+                          });
+                        }
+                        return <Route path={prop2.path} component={prop2.component} key={key2} />;
+                      });
+                    } else if (prop.redirect) {
+                      return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                    } else {
+                      return <Route path={prop.path} component={prop.component} key={key} />;
+                    }
+                  })}
+                </Switch>
+              </div>
+              <Footer />
+            </div>
           </div>
-          <Footer />
-        </div>
-        )
+        ) : (
+          <div className="page-wrapper d-block">
+            <div className="page-content container-fluid">
+              {isLogin && <WebSocketContainer />}
+              <Switch> 
+                {ThemeRoutesStudent.map((prop, key) => {
+                  if (prop.navlabel) {
+                    return null;
+                  } else if (prop.collapse) {
+                    return prop.child.map((prop2, key2) => {
+                      if (prop2.collapse) {
+                        return prop2.subchild.map((prop3, key3) => {
+                          return (
+                            <PrivateRoute isLogin={isLogin} path={prop3.path} component={prop3.component} key={key3} />
+                          );
+                        });
+                      }
+                      return (
+                        <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
+                      );
+                    });
+                  } else if (prop.redirect) {
+                    return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                  } else {
+                    return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
+                  }
+                })}
+              </Switch>
+            </div>
+            <Footer />
+          </div>
+        )}
       </div>
     );
   }
