@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "antd";
 import { Row } from "reactstrap";
 
-const EducationProgram = (props) => {
+const EducationProgramDetail = (props) => {
   const [educationProgram, setEducationProgram] = useState(null);
 
   const educationData = [
@@ -58,4 +58,4 @@ const EducationProgram = (props) => {
   );
 };
 
-export default EducationProgram;
+export default EducationProgramDetail;
