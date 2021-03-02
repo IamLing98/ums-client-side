@@ -31,9 +31,7 @@ class Fulllayout extends React.Component {
       }
     });
   }
-  /*--------------------------------------------------------------------------------*/
-  /*Life Cycle Hook, Applies when loading or resizing App                           */
-  /*--------------------------------------------------------------------------------*/
+  
   componentDidMount() {
     window.addEventListener("load", this.updateDimensions);
     window.addEventListener("resize", this.updateDimensions);
@@ -53,9 +51,7 @@ class Fulllayout extends React.Component {
       console.log("no login");
     }
   }
-  /*--------------------------------------------------------------------------------*/
-  /*Function that handles sidebar, changes when resizing App                        */
-  /*--------------------------------------------------------------------------------*/
+
   updateDimensions() {
     let element = document.getElementById("main-wrapper");
     this.setState({
@@ -83,9 +79,7 @@ class Fulllayout extends React.Component {
       default:
     }
   }
-  /*--------------------------------------------------------------------------------*/
-  /*Life Cycle Hook                                                                 */
-  /*--------------------------------------------------------------------------------*/
+
   componentWillUnmount() {
     window.removeEventListener("load", this.updateDimensions);
     window.removeEventListener("resize", this.updateDimensions);

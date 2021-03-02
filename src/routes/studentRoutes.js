@@ -1,21 +1,7 @@
- // import IndividualClients from "../pages/admin/individualClients";
-// import Benefits from "../pages/admin/benefits";
-// import RiskCategories from "../pages/admin/riskCategories";
-// import ProductTypes from "../pages/admin/productTypes";
-// import RiskClasses from "../pages/admin/riskClasses";
-// import CoverTypes from "../pages/admin/coverTypes";
-// import UnderWriters from "../pages/admin/underWriters";
-// import Users from "../pages/admin/users";
-// import Promotions from "../pages/admin/promotions";
-
-//Student Components
 import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
-import Schedule from '../pages/student/Schedule';
-
-
-//techer Component
-// import ResultManagement from "../pages/teacher/resultManagement"; 
+import Schedule from "../pages/student/Schedule";
+import News from '../pages/student/News';;
 
 export const ThemeRoutesStudent = [
   {
@@ -24,13 +10,13 @@ export const ThemeRoutesStudent = [
     icon: "mdi mdi-dots-horizontal",
   },
   {
-    path: "/dashboards/classic",
+    path: "/students/news",
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
-    component: Result,
-  }, 
+    component: News,
+  },
   {
-    path: "/dashboards/claims",
+    path: "/students/educationprogram",
     name: "Chương Trình Đào Tạo",
     icon: "mdi mdi-loop",
     component: Result,
@@ -45,7 +31,7 @@ export const ThemeRoutesStudent = [
     path: "/students/schedule",
     name: "Thời Khoá Biểu",
     icon: "mdi mdi-contacts",
-    component: Schedule,
+    component: Schedule, 
   },
   {
     path: "/students/result",
@@ -54,91 +40,15 @@ export const ThemeRoutesStudent = [
     component: Result,
   },
   {
-    path: "/dashboards/policies",
+    path: "/student/profile",
     name: "Sửa Lý Lịch",
     icon: "mdi mdi-file-document",
     component: Result,
   },
   {
-    path: "/dashboards/claims",
+    path: "/student/report",
     name: "Xin Giấy Xác Nhận",
     icon: "mdi mdi-loop",
     component: Result,
   }, 
-  //   {
-  //     collapse: true,
-  //     name: "Master",
-  //     state: "Mater",
-  //     path: "/master",
-  //     icon: "mdi mdi-settings",
-  //     extra: "",
-  //     child: [
-  //       {
-  //         path: "/master/productTypes",
-  //         name: "Product Types",
-  //         icon: "mdi mdi-folder-plus",
-  //         component: ProductTypes,
-  //       },
-  //       {
-  //         path: "/master/riskCategories",
-  //         name: "Risk Categories",
-  //         icon: "mdi mdi-shape-square-plus",
-  //         component: RiskCategories,
-  //       },
-  //       {
-  //         path: "/master/riskClasses",
-  //         name: "Risk Class",
-  //         icon: "mdi mdi-meteor",
-  //         component: RiskClasses,
-  //       },
-  //       {
-  //         path: "/master/underwriters",
-  //         name: "Underwriters",
-  //         icon: "mdi mdi-umbrella-outline",
-  //         component: UnderWriters,
-  //       },
-  //       {
-  //         path: "/master/users",
-  //         name: "Users",
-  //         icon: "mdi mdi-odnoklassniki",
-  //         component: Users,
-  //       },
-  //       {
-  //         path: "/master/coverTypes",
-  //         name: "Cover Types",
-  //         icon: "mdi mdi-wrap",
-  //         component: CoverTypes,
-  //       },
-  //       {
-  //         path: "/master/benefits",
-  //         name: "Benefits",
-  //         icon: "mdi mdi-thumb-up-outline",
-  //         component: Benefits,
-  //       },
-  //       {
-  //         path: "/master/search-result1",
-  //         name: "Rates",
-  //         icon: "mdi mdi-cash-usd",
-  //         component: Searchresult,
-  //       },
-  //       {
-  //         path: "/master/promotions",
-  //         name: "Promotions",
-  //         icon: "mdi mdi-all-inclusive",
-  //         component: Promotions,
-  //       },
-  //       {
-  //         path: "/master/search-result3",
-  //         name: "Binders",
-  //         icon: "mdi mdi-autorenew",
-  //         component: Searchresult,
-  //       },
-  //     ],
-  //   },
-  {
-    path: "/",
-    pathTo: "/dashboards/classic",
-    name: "Dashboard",
-    redirect: true,
-  },
-]; 
+];
