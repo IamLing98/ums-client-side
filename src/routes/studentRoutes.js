@@ -1,21 +1,6 @@
- // import IndividualClients from "../pages/admin/individualClients";
-// import Benefits from "../pages/admin/benefits";
-// import RiskCategories from "../pages/admin/riskCategories";
-// import ProductTypes from "../pages/admin/productTypes";
-// import RiskClasses from "../pages/admin/riskClasses";
-// import CoverTypes from "../pages/admin/coverTypes";
-// import UnderWriters from "../pages/admin/underWriters";
-// import Users from "../pages/admin/users";
-// import Promotions from "../pages/admin/promotions";
-
-//Student Components
 import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
 import Schedule from '../pages/student/Schedule';
-
-
-//techer Component
-// import ResultManagement from "../pages/teacher/resultManagement"; 
 
 export const ThemeRoutesStudent = [
   {

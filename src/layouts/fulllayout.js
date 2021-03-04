@@ -4,11 +4,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Header from "./layout-components/header/header";
 import Sidebar from "./layout-components/sidebar/sidebar";
 import Footer from "./layout-components/footer/footer";
-import { ThemeRoutesStudent } from "../routes/studentRoutes"; 
+import { ThemeRoutesStudent } from "../routes/studentRoutes";
+import { ThemeRoutesTeacher } from "../routes/teacherRoutes";
 import WebSocketContainer from "./WebSocketContainer";
 import PrivateRoute from "./PrivateRoute";
 import { getStudentDetail, getTeacherDetail } from "../redux/auth/reducer";
 import { getListNotifications } from "../redux//notifications/notificationActions";
+import { ROLE } from "../redux/auth/reducer";
 
 const mapStateToProps = (state) => ({
   ...state,
@@ -34,22 +36,7 @@ class Fulllayout extends React.Component {
   /*--------------------------------------------------------------------------------*/
   componentDidMount() {
     window.addEventListener("load", this.updateDimensions);
-    window.addEventListener("resize", this.updateDimensions);
-    let { authReducer } = this.props;
-    if (authReducer.isLogin) {
-      this.props.getListNotifications();
-      let user = JSON.parse(localStorage.getItem("user"));
-      if (user) {
-        if (user.roleDTO) {
-          let { roleDTO } = user;
-          if (roleDTO.roleId === 2) {
-            this.props.getStudentDetail(user.ownerId);
-          }
-        }
-      }
-    } else {
-      console.log("no login");
-    }
+    window.addEventListener("resize", this.updateDimensions); 
   }
   /*--------------------------------------------------------------------------------*/
   /*Function that handles sidebar, changes when resizing App                        */
@@ -94,6 +81,14 @@ class Fulllayout extends React.Component {
     /*--------------------------------------------------------------------------------*/
 
     const { isLogin } = this.props.authReducer;
+
+    const role = this.props.authReducer.role;
+
+    console.log("role:", role);
+    
+    if(!isLogin) {
+     return( <Redirect to="/authentication/login" />)
+    }
     return (
       <div
         id="main-wrapper"
@@ -108,11 +103,16 @@ class Fulllayout extends React.Component {
         {/*--------------------------------------------------------------------------------*/}
         {/* Header                                                                         */}
         {/*--------------------------------------------------------------------------------*/}
-        <Header {...this.props}  />
+        <Header {...this.props} />
         {/*--------------------------------------------------------------------------------*/}
         {/* Sidebar                                                                        */}
         {/*--------------------------------------------------------------------------------*/}
-        <Sidebar {...this.props} routes={ThemeRoutesStudent} />
+        <Sidebar
+          {...this.props}
+          routes={
+            role ? (role === ROLE.STUDENT ? ThemeRoutesStudent : role === ROLE.TEACHER ? ThemeRoutesTeacher : []) : []
+          }
+        />
         {/*--------------------------------------------------------------------------------*/}
         {/* Page Main-Content                                                              */}
         {/*--------------------------------------------------------------------------------*/}
@@ -120,25 +120,80 @@ class Fulllayout extends React.Component {
           <div className="companysetup-mainwrapper">
             <div className="page-wrapper d-block maincontent-wrapper">
               <div className="page-content container-fluid">
-                <Switch> 
-                  {ThemeRoutesStudent.map((prop, key) => {
-                    if (prop.navlabel) {
-                      return null;
-                    } else if (prop.collapse) {
-                      return prop.child.map((prop2, key2) => {
-                        if (prop2.collapse) {
-                          return prop2.subchild.map((prop3, key3) => {
-                            return <Route path={prop3.path} component={prop3.component} key={key3} />;
-                          });
-                        }
-                        return <Route path={prop2.path} component={prop2.component} key={key2} />;
-                      });
-                    } else if (prop.redirect) {
-                      return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                    } else {
-                      return <Route path={prop.path} component={prop.component} key={key} />;
-                    }
-                  })}
+                <Switch>
+                  {role
+                    ? role === ROLE.STUDENT
+                      ? ThemeRoutesStudent.map((prop, key) => {
+                          if (prop.navlabel) {
+                            return null;
+                          } else if (prop.collapse) {
+                            return prop.child.map((prop2, key2) => {
+                              if (prop2.collapse) {
+                                return prop2.subchild.map((prop3, key3) => {
+                                  return (
+                                    <PrivateRoute
+                                      isLogin={isLogin}
+                                      path={prop3.path}
+                                      component={prop3.component}
+                                      key={key3}
+                                    />
+                                  );
+                                });
+                              }
+                              return (
+                                <PrivateRoute
+                                  isLogin={isLogin}
+                                  path={prop2.path}
+                                  component={prop2.component}
+                                  key={key2}
+                                />
+                              );
+                            });
+                          } else if (prop.redirect) {
+                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                          } else {
+                            return (
+                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            );
+                          }
+                        })
+                      : role === ROLE.TEACHER
+                      ? ThemeRoutesTeacher.map((prop, key) => {
+                          if (prop.navlabel) {
+                            return null;
+                          } else if (prop.collapse) {
+                            return prop.child.map((prop2, key2) => {
+                              if (prop2.collapse) {
+                                return prop2.subchild.map((prop3, key3) => {
+                                  return (
+                                    <PrivateRoute
+                                      isLogin={isLogin}
+                                      path={prop3.path}
+                                      component={prop3.component}
+                                      key={key3}
+                                    />
+                                  );
+                                });
+                              }
+                              return (
+                                <PrivateRoute
+                                  isLogin={isLogin}
+                                  path={prop2.path}
+                                  component={prop2.component}
+                                  key={key2}
+                                />
+                              );
+                            });
+                          } else if (prop.redirect) {
+                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                          } else {
+                            return (
+                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            );
+                          }
+                        })
+                      : ""
+                    : ""}
                 </Switch>
               </div>
               <Footer />
@@ -148,29 +203,80 @@ class Fulllayout extends React.Component {
           <div className="page-wrapper d-block">
             <div className="page-content container-fluid">
               {isLogin && <WebSocketContainer />}
-              <Switch> 
-                {ThemeRoutesStudent.map((prop, key) => {
-                  if (prop.navlabel) {
-                    return null;
-                  } else if (prop.collapse) {
-                    return prop.child.map((prop2, key2) => {
-                      if (prop2.collapse) {
-                        return prop2.subchild.map((prop3, key3) => {
+              <Switch>
+                {role
+                  ? role === ROLE.STUDENT
+                    ? ThemeRoutesStudent.map((prop, key) => {
+                        if (prop.navlabel) {
+                          return null;
+                        } else if (prop.collapse) {
+                          return prop.child.map((prop2, key2) => {
+                            if (prop2.collapse) {
+                              return prop2.subchild.map((prop3, key3) => {
+                                return (
+                                  <PrivateRoute
+                                    isLogin={isLogin}
+                                    path={prop3.path}
+                                    component={prop3.component}
+                                    key={key3}
+                                  />
+                                );
+                              });
+                            }
+                            return (
+                              <PrivateRoute
+                                isLogin={isLogin}
+                                path={prop2.path}
+                                component={prop2.component}
+                                key={key2}
+                              />
+                            );
+                          });
+                        } else if (prop.redirect) {
+                          return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                        } else {
                           return (
-                            <PrivateRoute isLogin={isLogin} path={prop3.path} component={prop3.component} key={key3} />
+                            <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
                           );
-                        });
-                      }
-                      return (
-                        <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
-                      );
-                    });
-                  } else if (prop.redirect) {
-                    return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                  } else {
-                    return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
-                  }
-                })}
+                        }
+                      })
+                    : role === ROLE.TEACHER
+                    ? ThemeRoutesTeacher.map((prop, key) => {
+                        if (prop.navlabel) {
+                          return null;
+                        } else if (prop.collapse) {
+                          return prop.child.map((prop2, key2) => {
+                            if (prop2.collapse) {
+                              return prop2.subchild.map((prop3, key3) => {
+                                return (
+                                  <PrivateRoute
+                                    isLogin={isLogin}
+                                    path={prop3.path}
+                                    component={prop3.component}
+                                    key={key3}
+                                  />
+                                );
+                              });
+                            }
+                            return (
+                              <PrivateRoute
+                                isLogin={isLogin}
+                                path={prop2.path}
+                                component={prop2.component}
+                                key={key2}
+                              />
+                            );
+                          });
+                        } else if (prop.redirect) {
+                          return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                        } else {
+                          return (
+                            <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                          );
+                        }
+                      })
+                    : ""
+                  : ""}
               </Switch>
             </div>
             <Footer />

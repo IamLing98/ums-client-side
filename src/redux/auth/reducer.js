@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../index"; 
 import { SUCCESS, FAILURE, REQUEST } from "../actionTypeUlti";
 
 export const authActionType = {
@@ -15,15 +15,31 @@ export const ROLE = {
 let user = localStorage.getItem("token");
 
 export const login = (values) => {
-  return {
-    type: authActionType.LOGIN,
-    payload: axios
+  return (dispatch) => {
+    axios
       .post("/authenticate", values)
       .then((response) => {
-        return response.data;
+        let data = response.data;
+        dispatch(loginSuccess(data));
+        let { user } = data;
+        if (user) {
+          if (user.roleDTO) {
+            let { roleDTO } = user;
+            if (roleDTO.roleId === 2) {
+              dispatch(getStudentDetail(data.token, user.ownerId, user));
+            } else if (roleDTO.roleId === 3) {
+              dispatch(getTeacherDetail(user.ownerId));
+            }
+          }
+        }
       })
-      .catch((err) => console.log(err)),
+      .catch((err) => dispatch({ type: FAILURE(authActionType.LOGIN) }));
+    return { type: REQUEST(authActionType.LOGIN) };
   };
+};
+
+const loginSuccess = (values) => {
+  return { type: SUCCESS(authActionType.LOGIN), payload: values.jwttoken };
 };
 
 export const logout = () => {
@@ -32,15 +48,31 @@ export const logout = () => {
   };
 };
 
-export const getStudentDetail = (studentId) => {
-  return {
-    type: authActionType.GET_STUDENT_DETAIL,
-    payload: axios
+export const getStudentDetail = (token, studentId, user) => {
+  return (dispatch) => {
+    // axios.defaults.headers.common["Authorization"] = `Bearer  ${token}`;
+    axios
       .get(`/students/${studentId}`)
       .then((response) => {
-        return response.data;
+        dispatch(getStudentDetailSuccess({ userDetail: response.data, user: user }));
       })
-      .catch((err) => console.log(err)),
+      .catch(dispatch(getStudentDetailFailed()));
+    return {
+      type: authActionType.GET_STUDENT_DETAIL,
+    };
+  };
+};
+
+const getStudentDetailSuccess = (values) => {
+  return {
+    type: SUCCESS(authActionType.GET_STUDENT_DETAIL),
+    payload: values,
+  };
+};
+
+const getStudentDetailFailed = () => {
+  return {
+    type: FAILURE(authActionType.GET_STUDENT_DETAIL),
   };
 };
 
@@ -48,7 +80,7 @@ export const getTeacherDetail = (teacherId) => {
   return {
     type: authActionType.GET_TEACHER_DETAIL,
     payload: axios
-      .get(`/students/${teacherId}`)
+      .get(`/employee/${teacherId}`)
       .then((response) => {
         return response.data;
       })
@@ -69,11 +101,10 @@ export default (state = authState, action) => {
         ...state,
       };
     case SUCCESS(authActionType.LOGIN):
-      localStorage.setItem("token", action.payload.jwttoken);
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      console.log("lgon ok");
+      localStorage.setItem("token", action.payload);
       return {
         ...state,
-        isLogin: true,
       };
     case FAILURE(authActionType.LOGIN):
       return {
@@ -91,13 +122,31 @@ export default (state = authState, action) => {
       return {
         ...state,
       };
-    case SUCCESS(authActionType.GET_STUDENT_DETAIL):
+    case FAILURE(authActionType.GET_STUDENT_DETAIL):
       return {
         ...state,
+      };
+    case SUCCESS(authActionType.GET_STUDENT_DETAIL):
+      localStorage.setItem("token", action.payload.user.jwttoken);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      return {
+        ...state,
+        isLogin: true,
         user: action.payload,
         role: ROLE.STUDENT,
       };
-    case FAILURE(authActionType.GET_STUDENT_DETAIL):
+    case REQUEST(authActionType.GET_TEACHER_DETAIL):
+      return {
+        ...state,
+      };
+    case SUCCESS(authActionType.GET_TEACHER_DETAIL):
+      return {
+        ...state,
+        isLogin: true,
+        user: action.payload,
+        role: ROLE.TEACHER,
+      };
+    case FAILURE(authActionType.GET_TEACHER_DETAIL):
       return {
         ...state,
       };

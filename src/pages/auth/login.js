@@ -28,9 +28,10 @@ const Login = (props) => {
   const isLogin = useSelector((state) => state.authReducer.isLogin);
 
   const [formValues, setFormValues] = useState({
-    username: null,
-    password: null,
+    username: "517100032",
+    password: "Linh@12345",
   });
+  
   const onSubmit = () => {
     var formData = new FormData();
     formData.append("username", formValues.username);
