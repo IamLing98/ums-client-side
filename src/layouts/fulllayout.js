@@ -38,6 +38,7 @@ const FullLayout = (props) => {
     if (props.authReducer.isLogin) {
       console.log("login");
       props.getUserDetail();
+      props.getListNotifications()
     }
   }, [props.authReducer.isLogin]);
   /*--------------------------------------------------------------------------------*/
@@ -272,4 +273,4 @@ const FullLayout = (props) => {
     </div>
   );
 };
-export default connect(mapStateToProps, { getUserDetail })(FullLayout);
+export default connect(mapStateToProps, { getUserDetail, getListNotifications })(FullLayout);

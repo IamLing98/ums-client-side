@@ -20,19 +20,25 @@ export const ThemeRoutesTeacher = [
   },
   {
     path: "/dashboards/claims",
-    name: "Chương Trình Đào Tạo",
+    name: "Lịch Giảng Dạy",
     icon: "mdi mdi-loop",
     component: Result,
   },
   {
+    path: "/students/result",
+    name: "Quá Trình Làm Việc",
+    icon: "mdi mdi-pencil-box-outline",
+    component: Result,
+  },
+  {
     path: "/students/subjectSubmit",
-    name: "Đăng Ký Học Tập",
+    name: "Hồ Sơ Cá Nhân",
     icon: "mdi mdi-account-circle",
     component: StudyPlan,
   },
   {
     path: "/students/schedule",
-    name: "Thời Khoá Biểu",
+    name: "Xin Giấy Xác Nhận",
     icon: "mdi mdi-contacts",
     component: Schedule,
   },

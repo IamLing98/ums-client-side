@@ -244,7 +244,7 @@ class Header extends React.Component {
                           </div>
                           <div className="ml-2">
                             <h4 className="mb-0">{user.fullName}</h4>
-                            <p className=" mb-0">kaki@ibske.com</p>
+                            <p className=" mb-0">{user.email}</p>
                           </div>
                         </div>
                         <DropdownItem>
@@ -282,12 +282,12 @@ class Header extends React.Component {
                             <img src={profilephoto} alt="user" className="rounded-circle" width="60" />
                           </div>
                           <div className="ml-2">
-                            <h4 className="mb-0">Kaki Gondi</h4>
-                            <p className=" mb-0">kaki@ibske.com</p>
+                            <h4 className="mb-0">{user.fullName}</h4>
+                            <p className=" mb-0">{user.email}</p>
                           </div>
                         </div>
                         <DropdownItem>
-                          <i className="ti-user mr-1 ml-1" /> Tài khoản sinh viên
+                          <i className="ti-user mr-1 ml-1" /> Tài khoản giảng viên
                         </DropdownItem>
 
                         <DropdownItem divider />
