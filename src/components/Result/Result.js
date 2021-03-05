@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table  } from "antd"; 
+import { Table } from "antd";
 
 const Result = (props) => {
   const [subjectList, setSubjectList] = useState([]);
@@ -42,7 +42,9 @@ const Result = (props) => {
     },
   ];
 
-  useEffect(() => {}, [props.educationProgram]);
+  useEffect(() => {
+    setSubjectList([]);
+  }, [props.educationProgram]);
 
   return (
     <div style={{ marginTop: "15px" }}>

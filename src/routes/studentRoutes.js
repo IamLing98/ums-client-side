@@ -13,13 +13,7 @@ export const ThemeRoutesStudent = [
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
     component: Result,
-  }, 
-  {
-    path: "/dashboards/claims",
-    name: "Chương Trình Đào Tạo",
-    icon: "mdi mdi-loop",
-    component: Result,
-  },
+  },  
   {
     path: "/students/subjectSubmit",
     name: "Đăng Ký Học Tập",

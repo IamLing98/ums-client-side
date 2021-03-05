@@ -31,6 +31,7 @@ const EducationProgramDetail = (props) => {
       render: (text, record) => {
         return <strong style={{ fontWeight: "700" }}>{text}</strong>;
       },
+      width:"50%"
     },
     {
       title: "Giá trị",
@@ -40,15 +41,17 @@ const EducationProgramDetail = (props) => {
 
   useEffect(() => {
     if (props.educationProgram) {
+      setEducationProgram(props.educationProgram)
     }
   }, [props.educationProgram]);
 
   return (
-    <Row style={{ justifyContent: "center", display: "flex" }}>
+    <Row style={{display:"block"}}  >
       <Table
         bordered
         rowKey="title"
         size="small"
+        style={{maxWidth:"50%", margin:"0 auto"}}
         showHeader={false}
         pagination={false}
         columns={educationColumn}

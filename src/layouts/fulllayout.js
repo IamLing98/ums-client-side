@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import {  Switch, Redirect } from "react-router-dom";
 import Header from "./layout-components/header/header";
 import Sidebar from "./layout-components/sidebar/sidebar";
 import Footer from "./layout-components/footer/footer";
@@ -16,8 +16,7 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-const FullLayout = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FullLayout = (props) => { 
 
   const [width, setWidth] = useState(window.innerWidth);
 

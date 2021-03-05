@@ -19,9 +19,10 @@ class WebSocketContainer extends React.Component {
   static client = new Client();
 
   initWebSocket() {
+    let token = localStorage.getItem("token");
     WebSocketContainer.client.webSocketFactory = () =>
       new SockJS(
-        `http://localhost:8080/socket?access_token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MTcxMDAwMzIiLCJleHAiOjE2MTQ5NDQ2MzQsImlhdCI6MTYxMzE0NDYzNH0.9j0sJYLQRsXF18U4vYNUlR73kC1AFPWNqtI7PIUS6vWZSlOebww2iILB8ACu28EIxS7CBL4nDjVoAqXFZWzvmA`,
+        `http://localhost:8080/socket?access_token=${token}`,
       );
     WebSocketContainer.client.onConnect = () => {
       WebSocketContainer.client.subscribe("/topic/notifications", (response) => {

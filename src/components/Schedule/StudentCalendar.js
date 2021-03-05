@@ -11,9 +11,13 @@ const Calendar = (props) => {
     return (
       <>
         <Tag color="#108ee9" style={{ textAlign: "center", height: "100%" }}>
-          <h5>{eventContent.timeText}</h5>
-          <h5>{eventContent.event.title}</h5>
-          <h5>Phòng: {eventContent.event._def.extendedProps.roomId}</h5>
+          <span>
+            Thời gian: {eventContent.timeText}. Phòng: {eventContent.event._def.extendedProps.roomId}
+          </span><br/>
+          <span>Học phần:{eventContent.event.title}</span>
+          <br />
+          <span>Giảng viên: {eventContent.event._def.extendedProps.teacherName}</span>
+          <br />
         </Tag>
       </>
     );

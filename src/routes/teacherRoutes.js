@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
-import Schedule from "../pages/student/Schedule";
+import Schedule from "../pages/teacher/Schedule";
 
-function App(){
-	return<div>asdasd</div>
+function App() {
+  return <div>asdasd</div>;
 }
 export const ThemeRoutesTeacher = [
   {
@@ -15,45 +15,39 @@ export const ThemeRoutesTeacher = [
   {
     path: "/dashboards/classic",
     name: "Tin Tức",
-    icon: "mdi mdi-view-dashboard",
+    icon: "mdi mdi-newspaper",
     component: Result,
   },
   {
-    path: "/dashboards/claims",
+    path: "/teacher/schedule",
     name: "Lịch Giảng Dạy",
-    icon: "mdi mdi-loop",
-    component: Result,
-  },
-  {
-    path: "/students/result",
-    name: "Quá Trình Làm Việc",
-    icon: "mdi mdi-pencil-box-outline",
-    component: Result,
-  },
-  {
-    path: "/students/subjectSubmit",
-    name: "Hồ Sơ Cá Nhân",
-    icon: "mdi mdi-account-circle",
-    component: StudyPlan,
-  },
-  {
-    path: "/students/schedule",
-    name: "Xin Giấy Xác Nhận",
-    icon: "mdi mdi-contacts",
+    icon: "mdi mdi-timer",
     component: Schedule,
   },
   {
-    path: "/students/result",
-    name: "Kết Quả Học Tập",
-    icon: "mdi mdi-pencil-box-outline",
+    path: "/teacher/class",
+    name: "Lớp Phụ Trách",
+    icon: "mdi mdi-account-multiple",
     component: Result,
   },
   {
-    path: "/dashboards/policies",
-    name: "Sửa Lý Lịch",
-    icon: "mdi mdi-file-document",
+    path: "/teacher/salary",
+    name: "Bảng Lương Hàng Tháng",
+    icon: "mdi mdi-table",
+    component: Result,
+  },
+  {
+    path: "/teacher/profile",
+    name: "Hồ Sơ Cá Nhân",
+    icon: "mdi mdi-information-outline",
+    component: StudyPlan,
+  },
+  {
+    path: "/teacher/report",
+    name: "Xin Giấy Xác Nhận",
+    icon: "mdi mdi-clipboard-check",
     component: App,
-  }, 
+  },
   {
     path: "/",
     pathTo: "/dashboards/classic",
