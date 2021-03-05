@@ -1,10 +1,11 @@
 import React from 'react';
-const Empty = props => {
-	return(
-		<div>Empty</div>
-	)
-}
+import Result from "../pages/student/Result";
+import StudyPlan from "../pages/student/StudyPlan";
+import Schedule from "../pages/student/Schedule";
 
+function App(){
+	return<div>asdasd</div>
+}
 export const ThemeRoutesTeacher = [
   {
     navlabel: true,
@@ -15,37 +16,42 @@ export const ThemeRoutesTeacher = [
     path: "/dashboards/classic",
     name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
-    component: Empty,
+    component: Result,
   },
   {
     path: "/dashboards/claims",
     name: "Chương Trình Đào Tạo",
     icon: "mdi mdi-loop",
-    component: Empty,
+    component: Result,
   },
   {
     path: "/students/subjectSubmit",
     name: "Đăng Ký Học Tập",
     icon: "mdi mdi-account-circle",
-    component: Empty,
+    component: StudyPlan,
   },
   {
     path: "/students/schedule",
     name: "Thời Khoá Biểu",
     icon: "mdi mdi-contacts",
-    component: Empty,
+    component: Schedule,
   },
   {
     path: "/students/result",
     name: "Kết Quả Học Tập",
     icon: "mdi mdi-pencil-box-outline",
-    component: Empty,
+    component: Result,
   },
   {
     path: "/dashboards/policies",
     name: "Sửa Lý Lịch",
     icon: "mdi mdi-file-document",
-    component: Empty,
+    component: App,
+  }, 
+  {
+    path: "/",
+    pathTo: "/dashboards/classic",
+    name: "Dashboard",
+    redirect: true,
   },
-  { path: "/", pathTo: "/dashboards/classic", name: "Dashboard", redirect: true },
 ];

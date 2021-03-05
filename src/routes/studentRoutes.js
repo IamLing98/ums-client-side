@@ -1,7 +1,6 @@
 import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
-import Schedule from "../pages/student/Schedule";
-import News from '../pages/student/News';;
+import Schedule from '../pages/student/Schedule';
 
 export const ThemeRoutesStudent = [
   {
@@ -12,8 +11,7 @@ export const ThemeRoutesStudent = [
   {
     path: "/students/news",
     name: "Tin Tức",
-    icon: "mdi mdi-view-dashboard",
-    component: News,
+    icon: "mdi mdi-view-dashboard", 
   },
   {
     path: "/students/educationprogram",

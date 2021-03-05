@@ -4,12 +4,22 @@ import "./assets/scss/style.scss";
 import "antd/dist/antd.css";
 import axios from "axios";
 
-let jwtToken = localStorage.hasOwnProperty("token");
+// localStorage.removeItem("token");
+// localStorage.removeItem("user");
 
-if (jwtToken) {
-  console.log(localStorage.getItem("token"));
-  axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+let hasToken = localStorage.hasOwnProperty("token");
+if (hasToken) {
+  let jwtToken = localStorage.getItem("token");
+  console.log(jwtToken);
+  if (localStorage.getItem("token") || localStorage.getItem("token") !== "") {
+    console.log("lan 1");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+  } else {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
 }
+
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -17,8 +27,9 @@ axios.interceptors.request.use(
   (config) => {
     if (!config.headers.Authorization) {
       const token = localStorage.getItem("token");
-
-      if (token) {
+      console.log(token !== undefined);
+      if (token !== null && typeof token !== "undefined") {
+        console.log("lan 2");
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
@@ -26,17 +37,6 @@ axios.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
-);
-axios.interceptors.request.use(
-  (request) => {
-    // console.log(request);
-    // Edit request config
-    return request;
-  },
-  (error) => {
-    console.log(error);
-    return Promise.reject(error);
-  },
 );
 
 axios.interceptors.response.use(
@@ -50,6 +50,8 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export default axios;
 
 const App = require("./app").default;
 

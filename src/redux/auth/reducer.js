@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios from "../../index";
 import { SUCCESS, FAILURE, REQUEST } from "../actionTypeUlti";
 
 export const authActionType = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
+  GET_USER_DETAIL: "GET_USER_DETAIL",
   GET_STUDENT_DETAIL: "GET_STUDENT_DETAIL",
   GET_TEACHER_DETAIL: "GET_TEACHER_DETAIL",
 };
@@ -12,17 +13,26 @@ export const ROLE = {
   STUDENT: "STUDENT_ROLE",
   TEACHER: "TEACHER_ROLE",
 };
-let user = localStorage.getItem("token");
+let token = localStorage.getItem("token");
 
 export const login = (values) => {
-  return {
-    type: authActionType.LOGIN,
-    payload: axios
+  return (dispatch) => {
+    axios
       .post("/authenticate", values)
       .then((response) => {
-        return response.data;
+        let data = response.data;
+        dispatch(loginSuccess(data));
       })
-      .catch((err) => console.log(err)),
+      .catch((err) => dispatch({ type: FAILURE(authActionType.LOGIN) }));
+    return { type: REQUEST(authActionType.LOGIN) };
+  };
+};
+
+const loginSuccess = (values) => {
+  console.log("login success:", values);
+  return {
+    type: SUCCESS(authActionType.LOGIN),
+    payload: { token: values.token, username: values.user.username, role: values.user.roleDTO.roleId },
   };
 };
 
@@ -32,32 +42,59 @@ export const logout = () => {
   };
 };
 
-export const getStudentDetail = (studentId) => {
-  return {
-    type: authActionType.GET_STUDENT_DETAIL,
-    payload: axios
-      .get(`/students/${studentId}`)
+export const getUserDetail = () => {
+  console.log("getUserDetail");
+  let username = localStorage.getItem("username");
+  let role = localStorage.getItem("role");
+  console.log("username:", username);
+  console.log(role);
+  return (dispatch) => {
+    if (role === "2") {
+      dispatch(getStudentDetail(username));
+    } else if (role === "3") {
+      dispatch(getTeacherDetail(username));
+    }
+    return { type: authActionType.GET_USER_DETAIL };
+  };
+};
+
+export const getStudentDetail = (ownerId) => {
+  return (dispatch) => {
+    axios
+      .get(`/students/${ownerId}`)
       .then((response) => {
-        return response.data;
+        dispatch(getStudentDetailSuccess(response.data));
       })
-      .catch((err) => console.log(err)),
+      .catch((err) => dispatch(getStudentDetailFailed()));
+  };
+};
+
+const getStudentDetailSuccess = (values) => {
+  return {
+    type: SUCCESS(authActionType.GET_STUDENT_DETAIL),
+    payload: values,
+  };
+};
+
+const getStudentDetailFailed = () => {
+  return {
+    type: FAILURE(authActionType.GET_STUDENT_DETAIL),
   };
 };
 
 export const getTeacherDetail = (teacherId) => {
-  return {
-    type: authActionType.GET_TEACHER_DETAIL,
-    payload: axios
-      .get(`/students/${teacherId}`)
+  return (dispatch) => {
+    axios
+      .get(`/employee/${teacherId}`)
       .then((response) => {
-        return response.data;
+        dispatch({ type: SUCCESS(authActionType.GET_TEACHER_DETAIL), payload: response.data });
       })
-      .catch((err) => console.log(err)),
+      .catch((err) => dispatch({ type: FAILURE(authActionType.GET_TEACHER_DETAIL) }));
   };
 };
 
 const authState = {
-  isLogin: user ? true : false,
+  isLogin: token ? true : false,
   user: null,
   role: null,
 };
@@ -69,8 +106,10 @@ export default (state = authState, action) => {
         ...state,
       };
     case SUCCESS(authActionType.LOGIN):
-      localStorage.setItem("token", action.payload.jwttoken);
-      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      console.log("login success, payload:", action.payload);
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("username", action.payload.username);
+      localStorage.setItem("role", action.payload.role);
       return {
         ...state,
         isLogin: true,
@@ -87,6 +126,10 @@ export default (state = authState, action) => {
         isLogin: false,
         user: null,
       };
+    case authActionType.GET_USER_DETAIL:
+      return {
+        ...state,
+      };
     case REQUEST(authActionType.GET_STUDENT_DETAIL):
       return {
         ...state,
@@ -100,6 +143,23 @@ export default (state = authState, action) => {
     case FAILURE(authActionType.GET_STUDENT_DETAIL):
       return {
         ...state,
+        isLogin: false,
+      };
+    case REQUEST(authActionType.GET_TEACHER_DETAIL):
+      return {
+        ...state,
+      };
+    case SUCCESS(authActionType.GET_TEACHER_DETAIL):
+      return {
+        ...state,
+        isLogin: true,
+        user: action.payload,
+        role: ROLE.TEACHER,
+      };
+    case FAILURE(authActionType.GET_TEACHER_DETAIL):
+      return {
+        ...state,
+        isLogin: false,
       };
     default:
       return state;
