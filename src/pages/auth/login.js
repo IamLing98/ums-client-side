@@ -31,7 +31,7 @@ const Login = (props) => {
     username: "517100032",
     password: "Linh@12345",
   });
-  
+
   const onSubmit = () => {
     var formData = new FormData();
     formData.append("username", formValues.username);
@@ -44,7 +44,6 @@ const Login = (props) => {
   useEffect(() => {
     if (isLogin) {
       props.history.push("/");
-      console.log("Is login");
     }
   }, [isLogin]);
   return (
