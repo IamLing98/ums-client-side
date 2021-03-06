@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Space, Button, Tooltip, Modal, Table } from "antd";
 import { Row, Col } from "reactstrap";
 import { DeliveredProcedureOutlined, ImportOutlined, RetweetOutlined, PrinterOutlined } from "@ant-design/icons";
+import FileSaver from "file-saver";
+import axios from "axios";
 
 const SubjectClassActions = (props) => {
   const [subjectClass, setSubjectClass] = useState(null);
 
   useEffect(() => {
     if (props.visible) {
-      console.log(props.visible)
+      console.log(props.visible);
       setSubjectClass(props.visible);
     }
   }, [JSON.stringify(props.visible)]);
@@ -19,6 +21,40 @@ const SubjectClassActions = (props) => {
 
   const handleCancel = () => {
     props.setShowSubjectClassActions(false);
+  };
+
+  const saveFile = (fileName) => { 
+    FileSaver.saveAs(process.env.REACT_APP_API_URL + `/downloadFile/${fileName}`, "MyClassList.xlsx");
+  };
+
+  const handleCreateSubjectClassListExcel = (values) => {
+    let excelData = {
+      map: {
+        subjectClassId: values.subjectClassId,
+        subjectId: values.subject.subjectId,
+        subjectName: values.subject.subjectName,
+        term: values.term.term,
+        year: values.term.year,
+        teacherName: values.teacherName,
+      },
+      list: values.studentList.map((student, index) => {
+        return {
+          number: index,
+          ...student,
+          sex: student.sex === 1 ? "Nam" : "Nữ",
+        };
+      }),
+    };
+    console.log("excelData: ", excelData);
+    axios
+      .post(`/documents/excel?id=2`, excelData)
+      .then((response) => {
+        console.log(response.data);
+        saveFile(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const educationData = [
@@ -47,7 +83,7 @@ const SubjectClassActions = (props) => {
       render: (text, record) => {
         return <strong style={{ fontWeight: "700" }}>{text}</strong>;
       },
-      width: "50%"
+      width: "50%",
     },
     {
       title: "Giá trị",
@@ -106,10 +142,11 @@ const SubjectClassActions = (props) => {
               <DeliveredProcedureOutlined />
             </Button>
           </Tooltip>
-          <Tooltip placement="topLeft" title="In danh sách">
+          <Tooltip placement="topLeft" title="Tải danh sách lớp">
             <Button
               style={{ width: "100px", height: "100px", lineHeight: "0", fontSize: "50px", backgroundColor: "#44CCEB" }}
               size="large"
+              onClick={() => handleCreateSubjectClassListExcel(subjectClass)}
             >
               <PrinterOutlined />
             </Button>

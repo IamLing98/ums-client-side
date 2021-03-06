@@ -4,7 +4,7 @@ import { Card, CardTitle, CardBody, Row, Col } from "reactstrap";
 import axios from "axios";
 import moment from "moment";
 import { timeNumberTable } from "../../components/StudyPlan/util";
-import Calendar from "../../components/Schedule/TeacherCalendar"; 
+import Calendar from "../../components/Schedule/TeacherCalendar";
 //new Date that is start of Week
 var startOfWeek = moment().startOf("week").toDate();
 
@@ -21,7 +21,7 @@ const Schedule = (props) => {
 
   const [eventList, setEventList] = useState([]);
 
-  const [subjectClassList, setSubjectClassList] = useState([]); 
+  const [subjectClassList, setSubjectClassList] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -49,7 +49,7 @@ const Schedule = (props) => {
         title: subjectClass.subjectName,
         start: moment(start).format("YYYY-MM-DDTHH:mm:ss"),
         end: moment(end).format("YYYY-MM-DDTHH:mm:ss"),
-        ...subjectClass
+        ...subjectClass,
       };
       events.push(newEvent);
     });
@@ -65,7 +65,7 @@ const Schedule = (props) => {
         let events = processSubjectClassList(data);
         console.log("events:", events);
         setEventList([...events]);
-        setSubjectClassList([...data])
+        setSubjectClassList([...data]);
       })
       .catch((err) => console.log(err));
     setTimeout(() => setLoading(false), 500);
