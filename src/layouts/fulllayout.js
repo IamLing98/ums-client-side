@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
+import { Spin } from "antd";
+
 import Header from "./layout-components/header/header";
 import Sidebar from "./layout-components/sidebar/sidebar";
 import Footer from "./layout-components/footer/footer";
@@ -17,8 +19,6 @@ const mapStateToProps = (state) => ({
 });
 
 const FullLayout = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [width, setWidth] = useState(window.innerWidth);
 
   props.history.listen((location, action) => {
@@ -38,6 +38,7 @@ const FullLayout = (props) => {
     if (props.authReducer.isLogin) {
       console.log("login");
       props.getUserDetail();
+      props.getListNotifications();
     }
   }, [props.authReducer.isLogin]);
   /*--------------------------------------------------------------------------------*/
@@ -83,44 +84,145 @@ const FullLayout = (props) => {
 
   const { isLogin } = props.authReducer;
 
+  const { loading } = props.authReducer;
+
   const role = props.authReducer.role;
 
   console.log("role:", role);
 
   if (!isLogin) {
     return <Redirect to="/authentication/login" />;
-  }
-  return (
-    <div
-      id="main-wrapper"
-      dir={props.settings.activeDir}
-      data-theme={props.settings.activeTheme}
-      data-layout={props.settings.activeThemeLayout}
-      data-sidebartype={props.settings.activeSidebarType}
-      data-sidebar-position={props.settings.activeSidebarPos}
-      data-header-position={props.settings.activeHeaderPos}
-      data-boxed-layout={props.settings.activeLayout}
-    >
-      {/*--------------------------------------------------------------------------------*/}
-      {/* Header                                                                         */}
-      {/*--------------------------------------------------------------------------------*/}
-      <Header {...props} />
-      {/*--------------------------------------------------------------------------------*/}
-      {/* Sidebar                                                                        */}
-      {/*--------------------------------------------------------------------------------*/}
-      <Sidebar
-        {...props}
-        routes={
-          role ? (role === ROLE.STUDENT ? ThemeRoutesStudent : role === ROLE.TEACHER ? ThemeRoutesTeacher : []) : []
-        }
-      />
-      {/*--------------------------------------------------------------------------------*/}
-      {/* Page Main-Content                                                              */}
-      {/*--------------------------------------------------------------------------------*/}
-      {props.location.pathname === "/admin/companysetup" ? (
-        <div className="companysetup-mainwrapper">
-          <div className="page-wrapper d-block maincontent-wrapper">
+  } else if (loading) {
+    return (
+      <Spin spinning={loading}>
+        <div
+          id="main-wrapper"
+          dir={props.settings.activeDir}
+          data-theme={props.settings.activeTheme}
+          data-layout={props.settings.activeThemeLayout}
+          data-sidebartype={props.settings.activeSidebarType}
+          data-sidebar-position={props.settings.activeSidebarPos}
+          data-header-position={props.settings.activeHeaderPos}
+          data-boxed-layout={props.settings.activeLayout}
+          style={{height: "300px"}}
+        ></div>
+      </Spin>
+    );
+  } else
+    return (
+      <div
+        id="main-wrapper"
+        dir={props.settings.activeDir}
+        data-theme={props.settings.activeTheme}
+        data-layout={props.settings.activeThemeLayout}
+        data-sidebartype={props.settings.activeSidebarType}
+        data-sidebar-position={props.settings.activeSidebarPos}
+        data-header-position={props.settings.activeHeaderPos}
+        data-boxed-layout={props.settings.activeLayout}
+      >
+        {/*--------------------------------------------------------------------------------*/}
+        {/* Header                                                                         */}
+        {/*--------------------------------------------------------------------------------*/}
+        <Header {...props} />
+        {/*--------------------------------------------------------------------------------*/}
+        {/* Sidebar                                                                        */}
+        {/*--------------------------------------------------------------------------------*/}
+        <Sidebar
+          {...props}
+          routes={
+            role ? (role === ROLE.STUDENT ? ThemeRoutesStudent : role === ROLE.TEACHER ? ThemeRoutesTeacher : []) : []
+          }
+        />
+        {/*--------------------------------------------------------------------------------*/}
+        {/* Page Main-Content                                                              */}
+        {/*--------------------------------------------------------------------------------*/}
+        {props.location.pathname === "/admin/companysetup" ? (
+          <div className="companysetup-mainwrapper">
+            <div className="page-wrapper d-block maincontent-wrapper">
+              <div className="page-content container-fluid">
+                <Switch>
+                  {role
+                    ? role === ROLE.STUDENT
+                      ? ThemeRoutesStudent.map((prop, key) => {
+                          if (prop.navlabel) {
+                            return null;
+                          } else if (prop.collapse) {
+                            return prop.child.map((prop2, key2) => {
+                              if (prop2.collapse) {
+                                return prop2.subchild.map((prop3, key3) => {
+                                  return (
+                                    <PrivateRoute
+                                      isLogin={isLogin}
+                                      path={prop3.path}
+                                      component={prop3.component}
+                                      key={key3}
+                                    />
+                                  );
+                                });
+                              }
+                              return (
+                                <PrivateRoute
+                                  isLogin={isLogin}
+                                  path={prop2.path}
+                                  component={prop2.component}
+                                  key={key2}
+                                />
+                              );
+                            });
+                          } else if (prop.redirect) {
+                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                          } else {
+                            return (
+                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            );
+                          }
+                        })
+                      : role === ROLE.TEACHER
+                      ? ThemeRoutesTeacher.map((prop, key) => {
+                          if (prop.navlabel) {
+                            return null;
+                          } else if (prop.collapse) {
+                            return prop.child.map((prop2, key2) => {
+                              if (prop2.collapse) {
+                                return prop2.subchild.map((prop3, key3) => {
+                                  return (
+                                    <PrivateRoute
+                                      isLogin={isLogin}
+                                      path={prop3.path}
+                                      component={prop3.component}
+                                      key={key3}
+                                    />
+                                  );
+                                });
+                              }
+                              return (
+                                <PrivateRoute
+                                  isLogin={isLogin}
+                                  path={prop2.path}
+                                  component={prop2.component}
+                                  key={key2}
+                                />
+                              );
+                            });
+                          } else if (prop.redirect) {
+                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                          } else {
+                            return (
+                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            );
+                          }
+                        })
+                      : ""
+                    : ""}
+                </Switch>
+              </div>
+              <Footer />
+            </div>
+          </div>
+        ) : (
+          <div className="page-wrapper d-block">
             <div className="page-content container-fluid">
+              {isLogin && <WebSocketContainer />}
               <Switch>
                 {role
                   ? role === ROLE.STUDENT
@@ -199,77 +301,8 @@ const FullLayout = (props) => {
             </div>
             <Footer />
           </div>
-        </div>
-      ) : (
-        <div className="page-wrapper d-block">
-          <div className="page-content container-fluid">
-            {isLogin && <WebSocketContainer />}
-            <Switch>
-              {role
-                ? role === ROLE.STUDENT
-                  ? ThemeRoutesStudent.map((prop, key) => {
-                      if (prop.navlabel) {
-                        return null;
-                      } else if (prop.collapse) {
-                        return prop.child.map((prop2, key2) => {
-                          if (prop2.collapse) {
-                            return prop2.subchild.map((prop3, key3) => {
-                              return (
-                                <PrivateRoute
-                                  isLogin={isLogin}
-                                  path={prop3.path}
-                                  component={prop3.component}
-                                  key={key3}
-                                />
-                              );
-                            });
-                          }
-                          return (
-                            <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
-                          );
-                        });
-                      } else if (prop.redirect) {
-                        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                      } else {
-                        return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
-                      }
-                    })
-                  : role === ROLE.TEACHER
-                  ? ThemeRoutesTeacher.map((prop, key) => {
-                      if (prop.navlabel) {
-                        return null;
-                      } else if (prop.collapse) {
-                        return prop.child.map((prop2, key2) => {
-                          if (prop2.collapse) {
-                            return prop2.subchild.map((prop3, key3) => {
-                              return (
-                                <PrivateRoute
-                                  isLogin={isLogin}
-                                  path={prop3.path}
-                                  component={prop3.component}
-                                  key={key3}
-                                />
-                              );
-                            });
-                          }
-                          return (
-                            <PrivateRoute isLogin={isLogin} path={prop2.path} component={prop2.component} key={key2} />
-                          );
-                        });
-                      } else if (prop.redirect) {
-                        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-                      } else {
-                        return <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />;
-                      }
-                    })
-                  : ""
-                : ""}
-            </Switch>
-          </div>
-          <Footer />
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
 };
-export default connect(mapStateToProps, { getUserDetail })(FullLayout);
+export default connect(mapStateToProps, { getUserDetail, getListNotifications })(FullLayout);

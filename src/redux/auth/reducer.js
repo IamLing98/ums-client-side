@@ -97,6 +97,8 @@ const authState = {
   isLogin: token ? true : false,
   user: null,
   role: null,
+  notification: "",
+  loading: true,
 };
 
 export default (state = authState, action) => {
@@ -113,10 +115,12 @@ export default (state = authState, action) => {
       return {
         ...state,
         isLogin: true,
+        notification: "",
       };
     case FAILURE(authActionType.LOGIN):
       return {
         ...state,
+        notification: "Sai tên tài khoản hoặc mật khẩu",
       };
     case authActionType.LOGOUT:
       localStorage.removeItem("token");
@@ -129,6 +133,7 @@ export default (state = authState, action) => {
     case authActionType.GET_USER_DETAIL:
       return {
         ...state,
+        loading: true,
       };
     case REQUEST(authActionType.GET_STUDENT_DETAIL):
       return {
@@ -139,6 +144,7 @@ export default (state = authState, action) => {
         ...state,
         user: action.payload,
         role: ROLE.STUDENT,
+        loading: false,
       };
     case FAILURE(authActionType.GET_STUDENT_DETAIL):
       return {
@@ -155,6 +161,7 @@ export default (state = authState, action) => {
         isLogin: true,
         user: action.payload,
         role: ROLE.TEACHER,
+        loading: false,
       };
     case FAILURE(authActionType.GET_TEACHER_DETAIL):
       return {

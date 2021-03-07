@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Divider,   Select, PageHeader } from "antd";
+import { Divider, Select, PageHeader } from "antd";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import MakePlanSteps from "../../components/StudyPlan/Steps"; 
+import MakePlanSteps from "../../components/StudyPlan/Steps";
 import axios from "axios";
 import { Row, Col } from "reactstrap";
 import ResultTable from "../../components/Result/Result";

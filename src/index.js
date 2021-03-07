@@ -1,11 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom"; 
+import axios from "axios";
+import dotenv from "dotenv";
+
 import "./assets/scss/style.scss";
 import "antd/dist/antd.css";
-import axios from "axios";
 
 // localStorage.removeItem("token");
 // localStorage.removeItem("user");
+dotenv.config();
 
 let hasToken = localStorage.hasOwnProperty("token");
 if (hasToken) {

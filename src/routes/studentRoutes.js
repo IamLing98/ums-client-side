@@ -10,15 +10,10 @@ export const ThemeRoutesStudent = [
   },
   {
     path: "/students/news",
-    name: "Tin Tức",
-    icon: "mdi mdi-view-dashboard", 
-  },
-  {
-    path: "/students/educationprogram",
-    name: "Chương Trình Đào Tạo",
-    icon: "mdi mdi-loop",
+    name: "Tin Tức", 
+    icon: "mdi mdi-view-dashboard",
     component: Result,
-  },
+  },  
   {
     path: "/students/subjectSubmit",
     name: "Đăng Ký Học Tập",

@@ -46,10 +46,10 @@ const InvoicePrint = (props) => {
       forceRender
     >
       <Spin spinning={loading}>
-        {/* <Viewer
+        <Viewer
           plugins={[printPluginInstance, defaultLayoutPluginInstance]}
           fileUrl={`http://localhost:8080/downloadFile/${props.filePrintName}`}
-        /> */}
+        />
       </Spin>
     </Modal>
   );
