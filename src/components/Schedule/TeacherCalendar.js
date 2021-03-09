@@ -18,13 +18,15 @@ const Calendar = (props) => {
           <br />
           <span>Mã lớp:{eventContent.event._def.extendedProps.subjectClassId}</span>
           <br />
-          <span>Học phần:{eventContent.event._def.extendedProps.subject.subjectName}</span>
+          <span>
+            Học phần:{eventContent.event._def.extendedProps.subject.subjectName}
+          </span>
         </Tag>
       </>
     );
   };
 
-  const handleEventClick = (clickInfo) => { 
+  const handleEventClick = (clickInfo) => {
     setShowSubjectClassActions(clickInfo.event._def.extendedProps);
   };
 
@@ -75,7 +77,12 @@ const Calendar = (props) => {
             */
         eventClick={handleEventClick}
       />
-      <SubjectClassActions setShowSubjectClassActions={setShowSubjectClassActions} visible={showSubjectClassActions} />
+      <SubjectClassActions
+        setShowSubjectClassActions={setShowSubjectClassActions}
+        visible={showSubjectClassActions}
+        selectedItem={props.selectedItem}
+        getSchedule={props.getSchedule}
+      />
     </div>
   );
 };

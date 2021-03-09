@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Tag, Modal } from "antd";
 import { Row, Col } from "reactstrap";
 import { CloseSquareOutlined } from "@ant-design/icons";
-import { daysOfWeek } from "./util";
-
-import "react-table/react-table.css";
-import "react-phone-number-input/style.css";
-import "react-flags-select/css/react-flags-select.css";
+import { daysOfWeek } from "./util"; 
 
 const SubjectClassSubmitted = (props) => {
   const extractProgress = (value) => {

@@ -5,6 +5,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "./redux/store";
 import { Worker } from "@react-pdf-viewer/core";
 
+import "react-table/react-table.css";
+import "react-phone-number-input/style.css";
+import "react-flags-select/css/react-flags-select.css";
+
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/print/lib/styles/index.css";
