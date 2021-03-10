@@ -118,7 +118,7 @@ const Schedule = (props) => {
                 </Select>
               </Col>
             </Row>
-            <Calendar subjectClassList={subjectClassList} eventList={eventList} />
+            <Calendar subjectClassList={subjectClassList} eventList={eventList}  selectedItem={selectedItem} getSchedule={getSchedule} />
           </CardBody>
         </Card>
       );
