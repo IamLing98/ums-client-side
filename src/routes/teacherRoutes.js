@@ -3,7 +3,7 @@ import Result from "../pages/student/Result";
 import Schedule from "../pages/teacher/Schedule";
 import Class from '../pages/teacher/Class';
 import TeacherProfile from '../pages/teacher/Profile';
-
+import Account from "../pages/teacher/Account";
 
 function App() {
   return <div>asdasd</div>;
@@ -13,6 +13,12 @@ export const ThemeRoutesTeacher = [
     navlabel: true,
     name: "Personal",
     icon: "mdi mdi-dots-horizontal",
+  },
+  {
+    path: "/teachers/account",
+    name: "Tin Tức",
+    icon: "mdi mdi-newspaper",
+    component: Account,
   },
   {
     path: "/dashboards/classic",

@@ -36,7 +36,7 @@ export const Account = (props) => {
 
   const onFinish = (values) => {
     let newValue = {
-      username: values.studentId,
+      username: values.employeeId,
       password: values.password,
       newPassword: values.newPassword,
     };
@@ -79,7 +79,7 @@ export const Account = (props) => {
               <Col md="2"></Col>
               <Col md="7">
                 <Form.Item
-                  name="studentId"
+                  name="employeeId"
                   label="Tài khoản"
                   hasFeedback
                   rules={[{ required: true, message: "Vui lòng nhập mật khẩu!!!" }]}
