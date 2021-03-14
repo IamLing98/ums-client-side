@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Form, Select, Input, DatePicker, Divider, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { PageHeader } from "antd";
 import { Card, CardTitle, CardBody, Row, Col } from "reactstrap";
 import { useSelector } from "react-redux";
-import moment from "moment";
 import axios from "axios";
-
-const { Option } = Select;
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const formItemLayout = {
   labelCol: {
@@ -30,51 +28,30 @@ const formItemLayout = {
 export const Account = (props) => {
   const [form] = Form.useForm();
 
-  const [ethnicList, setEthnicList] = useState([]);
-
-  const [provinceList, setProvinceList] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const [record, setRecord] = useState(null);
 
   const employeeInfo = useSelector((state) => state.authReducer.user);
 
-  const getEthnicList = () => {
+  const onFinish = (values) => {
+    let newValue = {
+      username: values.studentId,
+      password: values.password,
+    };
     axios
-      .get("/ethnics", true)
-      .then((res) => {
-        setEthnicList(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .put(`/users`, newValue)
+      .then((response) => message.success("Thay đổi mật khẩu thành công!!!"))
+      .catch((err) => message.error("Có lỗi xảy ra!!!"));
   };
-
-  const getProvinceList = (id) => {
-    axios
-      .get(`/provinceCities?countryId=${id}`, true)
-      .then((res) => {
-        setProvinceList(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     if (employeeInfo) {
-      let newRecord = { ...employeeInfo };
-      newRecord.dateBirth = moment(newRecord.dateBirth);
-      setRecord(newRecord);
+      console.log(employeeInfo);
+      setRecord(employeeInfo);
       setLoading(false);
     }
   }, [employeeInfo]);
 
-  useEffect(() => {
-    getEthnicList();
-    getProvinceList();
-  }, []);
   return (
     <Card>
       <CardTitle className="mb-0  border-bottom bg-light">
@@ -92,39 +69,70 @@ export const Account = (props) => {
             initialValues={record}
             preserve={false}
             onValuesChange={(changedValues, allValues) => {}}
+            onFinish={onFinish}
           >
             <Row gutter={[16, 24]}>
               <Col md="2"></Col>
-              <Col md="8">
-                <Divider>Thông tin cá nhân</Divider>
+              <Col md="7">
                 <Form.Item
-                  name="username"
+                  name="studentId"
                   label="Tài khoản"
                   hasFeedback
-                  rules={[{ required: true, message: "Vui lòng nhập tên giảng viên!!!" }]}
+                  rules={[{ required: true, message: "Vui lòng nhập mật khẩu!!!" }]}
                 >
-                  <Input disabled placeholder="Họ và tên giảng viên..." allowClear />
+                  <Input
+                    disabled
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Tài khoản đăng nhập..."
+                    allowClear
+                  />
                 </Form.Item>
                 <Form.Item
                   name="password"
                   label="Mật khẩu"
                   hasFeedback
-                  rules={[{ required: true, message: "Vui lòng nhập tên giảng viên!!!" }]}
+                  rules={[{ required: true, message: "Vui lòng nhập mật khẩu!!!" }]}
                 >
-                  <Input disabled placeholder="Họ và tên giảng viên..." allowClear />
+                  <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Mật khẩu..."
+                    allowClear
+                  />
                 </Form.Item>
                 <Form.Item
                   name="confirmPassword"
-                  label="Nhập lại tài khoản"
+                  label="Nhập lại mật khẩu"
                   hasFeedback
-                  rules={[{ required: true, message: "Vui lòng nhập tên giảng viên!!!" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập tên giảng viên!!!",
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+
+                        return Promise.reject(
+                          new Error("Mật khẩu nhập lại không trùng!"),
+                        );
+                      },
+                    }),
+                  ]}
                 >
-                  <Input disabled placeholder="Họ và tên giảng viên..." allowClear />
+                  <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Nhập lại mật khẩu..."
+                    allowClear
+                  />
                 </Form.Item>
               </Col>
             </Row>
             <Row style={{ display: "flex", justifyContent: "center" }}>
-              <Button onClick={() => console.log(form.getFieldsValue())} type="primary">
+              <Button htmlType="submit" type="primary">
                 Cập nhật
               </Button>
             </Row>

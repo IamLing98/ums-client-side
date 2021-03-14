@@ -98,7 +98,7 @@ const authState = {
   user: null,
   role: null,
   notification: "",
-  loading: true,
+  loading: true, 
 };
 
 export default (state = authState, action) => {
@@ -115,7 +115,7 @@ export default (state = authState, action) => {
       return {
         ...state,
         isLogin: true,
-        notification: "",
+        notification: "", 
       };
     case FAILURE(authActionType.LOGIN):
       return {
