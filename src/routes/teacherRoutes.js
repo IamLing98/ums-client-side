@@ -1,7 +1,9 @@
 import React from "react";
-import Result from "../pages/student/Result";
-import StudyPlan from "../pages/student/StudyPlan";
+import Result from "../pages/student/Result"; 
 import Schedule from "../pages/teacher/Schedule";
+import Class from '../pages/teacher/Class';
+import TeacherProfile from '../pages/teacher/Profile';
+
 
 function App() {
   return <div>asdasd</div>;
@@ -28,7 +30,7 @@ export const ThemeRoutesTeacher = [
     path: "/teacher/class",
     name: "Lớp Phụ Trách",
     icon: "mdi mdi-account-multiple",
-    component: Result,
+    component: Class,
   },
   {
     path: "/teacher/salary",
@@ -40,7 +42,7 @@ export const ThemeRoutesTeacher = [
     path: "/teacher/profile",
     name: "Hồ Sơ Cá Nhân",
     icon: "mdi mdi-information-outline",
-    component: StudyPlan,
+    component: TeacherProfile,
   },
   {
     path: "/teacher/report",

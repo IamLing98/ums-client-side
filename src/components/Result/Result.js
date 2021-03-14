@@ -1,9 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { Table } from "antd";
+import React from "react";
+import { Table, Tag, Modal } from "antd";
 
 const Result = (props) => {
-  const [subjectList, setSubjectList] = useState([]);
-
+  function info(record) {
+    Modal.info({
+      title: "Chi tiết học phần",
+      content: (
+        <div>
+          <p>
+            Tên học phần:{" "}
+            <strong>
+              {props.selectedTerm ? record.subjectName : record.subject.subjectName}
+            </strong>
+          </p>
+          <p>
+            Số tín chỉ: <strong>{record.eachSubject}</strong>
+          </p>
+          <p>
+            Điểm chuyên cần: <strong>{record.diemChuyenCan}</strong>{" "}
+          </p>
+          <p>
+            Điểm bài tập: <strong>{record.diemBaiTap}</strong>{" "}
+          </p>
+          <p>
+            Điểm kiểm tra: <strong>{record.diemKiemTra}</strong>{" "}
+          </p>
+          <p>
+            Điểm thi: <strong>{record.diemThi}</strong>{" "}
+          </p>
+          <p>
+            Điểm thi lần 2: <strong>{record.diemThiLai}</strong>{" "}
+          </p>
+        </div>
+      ),
+      centered: true,
+      okText: "Đóng",
+      onOk() {},
+    });
+  }
   const columns = [
     {
       title: "Mã học phần",
@@ -14,6 +48,24 @@ const Result = (props) => {
       title: "Tên học phần",
       dataIndex: "subjectName",
       align: "center",
+      render: (text, record) => {
+        if (props.selectedTerm) {
+          return (
+            <Tag
+              className={props.selectedTerm ? "tag_in_table" : ""}
+              style={{lineHeight:"32px", fontSize:"16px"}}
+              onClick={() => {
+                console.log(record);
+                if (props.selectedTerm) {
+                  info(record);
+                }
+              }}
+            >
+              {text}
+            </Tag>
+          );
+        } else return <span> {text}</span>;
+      },
     },
     {
       title: "Số tín chỉ",
@@ -22,33 +74,36 @@ const Result = (props) => {
     },
     {
       title: "Điểm hệ 10",
-      dataIndex: "eachSubject",
+      dataIndex: "diemTrungBinh",
       align: "center",
     },
     {
       title: "Điểm hệ 4",
-      dataIndex: "eachSubject",
+      dataIndex: "diemThangBon",
       align: "center",
     },
     {
       title: "Điểm chữ",
-      dataIndex: "eachSubject",
-      align: "center",
-    },
-    {
-      title: "Thao tác",
-      dataIndex: "eachSubject",
+      dataIndex: "diemChu",
       align: "center",
     },
   ];
 
-  useEffect(() => {
-    setSubjectList([]);
-  }, [props.educationProgram]);
-
   return (
     <div style={{ marginTop: "15px" }}>
-      <Table bordered rowKey="title" pagination={{ pageSize: 10 }} columns={columns} dataSource={subjectList} />
+      {props.selectedItem && (
+        <Tag style={{ lineHeight: "32px", marginBottom: "15px", maxWidth: "30%" }}>
+          GPA:{props.selectedTerm ? props.selectedTerm.gpa : ""}
+        </Tag>
+      )}
+      <Table
+        bordered
+        rowKey="subjectId"
+        size="small"
+        pagination={{ pageSize: 10 }}
+        columns={columns}
+        dataSource={props.data}
+      />
     </div>
   );
 };

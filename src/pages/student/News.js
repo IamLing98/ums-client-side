@@ -39,20 +39,11 @@ const News = (props) => {
       <div>
         <Card>
           <CardTitle className="mb-0  border-bottom bg-light">
-            <PageHeader className="site-page-header" title={"Thời khoá biểu"} style={{ height: "56px" }}></PageHeader>
+            <PageHeader className="site-page-header" title={"Tin tức"} style={{ height: "56px" }}></PageHeader>
           </CardTitle>
           <CardBody>
             <Row>
-              <Col md={12}>
-                <Select style={{ width: "20%" }} placeholder="Học kỳ...">
-                  {termList.map((term, index) => {
-                    return (
-                      <Select.Option value={term.id} key={"termOptsSchedule" + index}>
-                        {"Học kỳ " + term.term + " năm " + term.year}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
+              <Col md={12}> 
               </Col>
             </Row>
             {/* <Calendar   /> */}

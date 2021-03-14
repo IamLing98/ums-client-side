@@ -22,7 +22,10 @@ const FullLayout = (props) => {
   const [width, setWidth] = useState(window.innerWidth);
 
   props.history.listen((location, action) => {
-    if (window.innerWidth < 767 && document.getElementById("main-wrapper").className.indexOf("show-sidebar") !== -1) {
+    if (
+      window.innerWidth < 767 &&
+      document.getElementById("main-wrapper").className.indexOf("show-sidebar") !== -1
+    ) {
       document.getElementById("main-wrapper").classList.toggle("show-sidebar");
     }
   });
@@ -104,7 +107,7 @@ const FullLayout = (props) => {
           data-sidebar-position={props.settings.activeSidebarPos}
           data-header-position={props.settings.activeHeaderPos}
           data-boxed-layout={props.settings.activeLayout}
-          style={{height: "300px"}}
+          style={{ height: "300px" }}
         ></div>
       </Spin>
     );
@@ -130,7 +133,13 @@ const FullLayout = (props) => {
         <Sidebar
           {...props}
           routes={
-            role ? (role === ROLE.STUDENT ? ThemeRoutesStudent : role === ROLE.TEACHER ? ThemeRoutesTeacher : []) : []
+            role
+              ? role === ROLE.STUDENT
+                ? ThemeRoutesStudent
+                : role === ROLE.TEACHER
+                ? ThemeRoutesTeacher
+                : []
+              : []
           }
         />
         {/*--------------------------------------------------------------------------------*/}
@@ -170,10 +179,17 @@ const FullLayout = (props) => {
                               );
                             });
                           } else if (prop.redirect) {
-                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                            return (
+                              <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                            );
                           } else {
                             return (
-                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                              <PrivateRoute
+                                isLogin={isLogin}
+                                path={prop.path}
+                                component={prop.component}
+                                key={key}
+                              />
                             );
                           }
                         })
@@ -205,10 +221,17 @@ const FullLayout = (props) => {
                               );
                             });
                           } else if (prop.redirect) {
-                            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                            return (
+                              <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                            );
                           } else {
                             return (
-                              <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                              <PrivateRoute
+                                isLogin={isLogin}
+                                path={prop.path}
+                                component={prop.component}
+                                key={key}
+                              />
                             );
                           }
                         })
@@ -256,7 +279,12 @@ const FullLayout = (props) => {
                           return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
                         } else {
                           return (
-                            <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            <PrivateRoute
+                              isLogin={isLogin}
+                              path={prop.path}
+                              component={prop.component}
+                              key={key}
+                            />
                           );
                         }
                       })
@@ -291,7 +319,12 @@ const FullLayout = (props) => {
                           return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
                         } else {
                           return (
-                            <PrivateRoute isLogin={isLogin} path={prop.path} component={prop.component} key={key} />
+                            <PrivateRoute
+                              isLogin={isLogin}
+                              path={prop.path}
+                              component={prop.component}
+                              key={key}
+                            />
                           );
                         }
                       })
@@ -305,4 +338,6 @@ const FullLayout = (props) => {
       </div>
     );
 };
-export default connect(mapStateToProps, { getUserDetail, getListNotifications })(FullLayout);
+export default connect(mapStateToProps, { getUserDetail, getListNotifications })(
+  FullLayout,
+);

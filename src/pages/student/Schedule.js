@@ -36,7 +36,9 @@ const Schedule = (props) => {
     subjectClassList.forEach((subjectClass, index) => {
       let hourOfDay = parseInt(subjectClass.hourOfDay);
       let duration = parseInt(subjectClass.duration);
-      let start = moment(startOfWeek).add(subjectClass.dayOfWeek, "days").format("YYYY-MM-DD") + " ";
+      let start =
+        moment(startOfWeek).add(subjectClass.dayOfWeek, "days").format("YYYY-MM-DD") +
+        " ";
       let end = start;
       let startTimeSlot = timeNumberTable[hourOfDay - 1].start;
       let endTimeSlot = timeNumberTable[hourOfDay + duration - 2].end;
@@ -81,6 +83,9 @@ const Schedule = (props) => {
 
   useEffect(() => {
     getListSubjectClassSubmitted(selectedItem);
+    if (selectedItem) {
+      getListSubjectClassSubmitted(selectedItem);
+    }
   }, [selectedItem]);
 
   useEffect(() => {
@@ -95,11 +100,15 @@ const Schedule = (props) => {
         <div>
           <Card>
             <CardTitle className="mb-0  border-bottom bg-light">
-              <PageHeader className="site-page-header" title={"Thời khoá biểu"} style={{ height: "56px" }}></PageHeader>
+              <PageHeader
+                className="site-page-header"
+                title={"Thời khoá biểu"}
+                style={{ height: "56px" }}
+              ></PageHeader>
             </CardTitle>
             <CardBody>
               <Row>
-                <Col md={12}> 
+                <Col md={12}>
                   <Select
                     style={{ width: "20%" }}
                     placeholder="Học kỳ..."
@@ -113,7 +122,7 @@ const Schedule = (props) => {
                         </Select.Option>
                       );
                     })}
-                  </Select>  
+                  </Select>
                 </Col>
               </Row>
               <Calendar eventList={eventList} />
@@ -121,7 +130,7 @@ const Schedule = (props) => {
           </Card>
         </div>
       );
-    } else return <></>;
+    } else return <>k co gi</>;
   }
 };
 
