@@ -22,6 +22,10 @@ const EducationProgramDetail = (props) => {
       title: "Số học kỳ:",
       values: educationProgram ? educationProgram.totalTerm : "",
     },
+    {
+      title: "CPA:",
+      values: props.CPA ? props.CPA : "",
+    },
   ];
 
   const educationColumn = [

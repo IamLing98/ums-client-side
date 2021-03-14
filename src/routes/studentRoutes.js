@@ -1,19 +1,23 @@
 import Result from "../pages/student/Result";
 import StudyPlan from "../pages/student/StudyPlan";
-import Schedule from '../pages/student/Schedule';
+import Schedule from "../pages/student/Schedule";
+import Profile from '../pages/student/Profile';
+import News from '../pages/student/News';
+import Account from '../pages/student/Account';
 
 export const ThemeRoutesStudent = [
   {
-    navlabel: true,
-    name: "Personal",
-    icon: "mdi mdi-dots-horizontal",
+    path: "/students/account",
+    name: "Tin Tức",
+    icon: "mdi mdi-view-dashboard",
+    component: Account,
   },
   {
     path: "/students/news",
-    name: "Tin Tức", 
+    name: "Tin Tức",
     icon: "mdi mdi-view-dashboard",
-    component: Result,
-  },  
+    component: News,
+  },
   {
     path: "/students/subjectSubmit",
     name: "Đăng Ký Học Tập",
@@ -24,7 +28,7 @@ export const ThemeRoutesStudent = [
     path: "/students/schedule",
     name: "Thời Khoá Biểu",
     icon: "mdi mdi-contacts",
-    component: Schedule, 
+    component: Schedule,
   },
   {
     path: "/students/result",
@@ -36,12 +40,12 @@ export const ThemeRoutesStudent = [
     path: "/student/profile",
     name: "Sửa Lý Lịch",
     icon: "mdi mdi-file-document",
-    component: Result,
+    component: Profile,
   },
   {
     path: "/student/report",
     name: "Xin Giấy Xác Nhận",
     icon: "mdi mdi-loop",
     component: Result,
-  }, 
+  },
 ];

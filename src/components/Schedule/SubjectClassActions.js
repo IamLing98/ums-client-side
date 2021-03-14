@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Space, Button, Tooltip, Modal, Table, Upload, message, Spin } from "antd";
 import { Row, Col } from "reactstrap";
-import {
-  DeliveredProcedureOutlined,
+import { 
   ImportOutlined,
   RetweetOutlined,
   PrinterOutlined,
@@ -221,7 +220,7 @@ const SubjectClassActions = (props) => {
               >
                 <ImportOutlined />
               </Button>
-            </Tooltip> 
+            </Tooltip>
             <Tooltip placement="topLeft" title="Tải danh sách lớp">
               <Button
                 style={{
@@ -256,9 +255,11 @@ const SubjectClassActions = (props) => {
               </div>
             }
           >
-            <Upload {...importModalProps} maxCount={1}>
-              <Button icon={<UploadOutlined />}>Chọn file định dạng .xls,.xlsx</Button>
-            </Upload>
+            <div style={{width:"100%", display: "grid", justifyContent: "center"}}>
+              <Upload {...importModalProps} maxCount={1}>
+                <Button icon={<UploadOutlined />}>Chọn file định dạng .xls,.xlsx</Button>
+              </Upload>
+            </div>
           </Modal>
         </Row>
       </Modal>

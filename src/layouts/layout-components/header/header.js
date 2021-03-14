@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-// import * as data from "./data";
+import { Link } from "react-router-dom";
 
 import { Badge } from "antd";
 /*--------------------------------------------------------------------------------*/
@@ -94,19 +94,32 @@ class Header extends React.Component {
     const { role } = this.props.authReducer;
     const { user } = this.props.authReducer;
     return (
-      <header className="topbar navbarbg" data-navbarbg={this.props.settings.activeNavbarBg}>
+      <header
+        className="topbar navbarbg"
+        data-navbarbg={this.props.settings.activeNavbarBg}
+      >
         {isLogin && (
           <Navbar
             className={
-              "top-navbar " + (this.props.settings.activeNavbarBg === "skin6" ? "navbar-light" : "navbar-dark")
+              "top-navbar " +
+              (this.props.settings.activeNavbarBg === "skin6"
+                ? "navbar-light"
+                : "navbar-dark")
             }
             expand="md"
           >
-            <div className="navbar-header" id="logobg" data-logobg={this.props.settings.activeLogoBg}>
+            <div
+              className="navbar-header"
+              id="logobg"
+              data-logobg={this.props.settings.activeLogoBg}
+            >
               {/*--------------------------------------------------------------------------------*/}
               {/* Mobile View Toggler  [visible only after 768px screen]                         */}
               {/*--------------------------------------------------------------------------------*/}
-              <span className="nav-toggler d-block d-md-none" onClick={this.showMobilemenu}>
+              <span
+                className="nav-toggler d-block d-md-none"
+                onClick={this.showMobilemenu}
+              >
                 <i className="ti-menu ti-close" />
               </span>
               {/*--------------------------------------------------------------------------------*/}
@@ -116,12 +129,19 @@ class Header extends React.Component {
                 <b className="logo-icon" style={{ marginLeft: "15px" }}>
                   <img src={logodarkicon} alt="homepage" className="dark-logo" />
                   {/* <img src="https://sotaytuyensinh.vn/wp-content/uploads/2019/05/Diem-chuan-dai-hoc-phuong-dong.png" alt="homepage" className="dark-logo" /> */}
-                  <img src={pduLogo} alt="homepage" className="light-logo" style={{ width: "120px", height: "50px" }} />
+                  <img
+                    src={pduLogo}
+                    alt="homepage"
+                    className="light-logo"
+                    style={{ width: "120px", height: "50px" }}
+                  />
                 </b>
                 <span className="logo-text">
                   {/* <img src={logodarktext} alt="homepage" className="dark-logo" /> */}
                   <img
-                    src={"https://sotaytuyensinh.vn/wp-content/uploads/2019/05/Diem-chuan-dai-hoc-phuong-dong.png"}
+                    src={
+                      "https://sotaytuyensinh.vn/wp-content/uploads/2019/05/Diem-chuan-dai-hoc-phuong-dong.png"
+                    }
                     alt="homepage"
                     className="dark-logo"
                   />
@@ -195,30 +215,42 @@ class Header extends React.Component {
                     <div className="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                       <div className="">
                         <h4 className="mb-0">Thông báo</h4>
-                        <p className="mb-0">{notificationReducer.notReadNumber} thông báo mới</p>
+                        <p className="mb-0">
+                          {notificationReducer.notReadNumber} thông báo mới
+                        </p>
                       </div>
                     </div>
-                    <div style={{ maxHeight: "300px" }} className="message-center notifications">
+                    <div
+                      style={{ maxHeight: "300px" }}
+                      className="message-center notifications"
+                    >
                       {/*<!-- Message -->*/}
-                      {notificationReducer.nofiticationsList.map((notification, index) => {
-                        return (
-                          <span href="" className="message-item" key={index}>
-                            {/* <span className={"btn btn-circle btn-" + notification.iconbg}>
+                      {notificationReducer.nofiticationsList.map(
+                        (notification, index) => {
+                          return (
+                            <span href="" className="message-item" key={index}>
+                              {/* <span className={"btn btn-circle btn-" + notification.iconbg}>
                             <i className={notification.iconclass} />
                           </span> */}
-                            <div className="mail-contnet">
-                              <h5 className="message-title">{notification.title}</h5>
-                              <span className="mail-desc">{parse(notification.content)}</span>
-                              <span className="time">
-                                {moment(notification.createdDate).format("hh:mm DD/MM/YYYY")}
-                              </span>
-                            </div>
-                          </span>
-                        );
-                      })}
+                              <div className="mail-contnet">
+                                <h5 className="message-title">{notification.title}</h5>
+                                <span className="mail-desc">
+                                  {parse(notification.content)}
+                                </span>
+                                <span className="time">
+                                  {moment(notification.createdDate).format(
+                                    "hh:mm DD/MM/YYYY",
+                                  )}
+                                </span>
+                              </div>
+                            </span>
+                          );
+                        },
+                      )}
                     </div>
                     <a className="nav-link text-center mb-1 text-dark" href=";">
-                      <strong>Check all notifications</strong> <i className="fa fa-angle-right" />
+                      <strong>Check all notifications</strong>{" "}
+                      <i className="fa fa-angle-right" />
                     </a>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -232,7 +264,12 @@ class Header extends React.Component {
                   role === ROLE.STUDENT ? (
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav caret className="pro-pic">
-                        <img src={profilephoto} alt="user" className="rounded-circle" width="31" />
+                        <img
+                          src={profilephoto}
+                          alt="user"
+                          className="rounded-circle"
+                          width="31"
+                        />
                       </DropdownToggle>
                       <DropdownMenu right className="user-dd">
                         <span className="with-arrow">
@@ -240,7 +277,12 @@ class Header extends React.Component {
                         </span>
                         <div className="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                           <div className="">
-                            <img src={profilephoto} alt="user" className="rounded-circle" width="60" />
+                            <img
+                              src={profilephoto}
+                              alt="user"
+                              className="rounded-circle"
+                              width="60"
+                            />
                           </div>
                           <div className="ml-2">
                             <h4 className="mb-0">{user.fullName}</h4>
@@ -248,7 +290,9 @@ class Header extends React.Component {
                           </div>
                         </div>
                         <DropdownItem>
-                          <i className="ti-user mr-1 ml-1" /> Tài khoản sinh viên
+                          <Link to="/students/account">
+                            <i className="ti-user mr-1 ml-1" /> Tài khoản sinh viên
+                          </Link>
                         </DropdownItem>
 
                         <DropdownItem divider />
@@ -271,7 +315,12 @@ class Header extends React.Component {
                   ) : (
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav caret className="pro-pic">
-                        <img src={profilephoto} alt="user" className="rounded-circle" width="31" />
+                        <img
+                          src={profilephoto}
+                          alt="user"
+                          className="rounded-circle"
+                          width="31"
+                        />
                       </DropdownToggle>
                       <DropdownMenu right className="user-dd">
                         <span className="with-arrow">
@@ -279,7 +328,12 @@ class Header extends React.Component {
                         </span>
                         <div className="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                           <div className="">
-                            <img src={profilephoto} alt="user" className="rounded-circle" width="60" />
+                            <img
+                              src={profilephoto}
+                              alt="user"
+                              className="rounded-circle"
+                              width="60"
+                            />
                           </div>
                           <div className="ml-2">
                             <h4 className="mb-0">{user.fullName}</h4>
@@ -287,7 +341,10 @@ class Header extends React.Component {
                           </div>
                         </div>
                         <DropdownItem>
-                          <i className="ti-user mr-1 ml-1" /> Tài khoản giảng viên
+                          <Link to="/teachers/account">
+                            <i className="ti-user mr-1 ml-1" />
+                            Tài khoản giảng viên
+                          </Link>
                         </DropdownItem>
 
                         <DropdownItem divider />
