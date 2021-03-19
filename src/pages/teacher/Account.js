@@ -41,7 +41,7 @@ export const Account = (props) => {
       newPassword: values.newPassword,
     };
     axios
-      .put(`/users`, newValue)
+      .put(`/users?actionType=CHANGE`, newValue)
       .then((response) => {
         form.resetFields();
         message.success("Thay đổi mật khẩu thành công!!!");
