@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Tag } from "antd";
+import moment from 'moment'
 
 const Calendar = (props) => {
   const renderEventContent = (eventContent) => {
@@ -39,7 +40,9 @@ const Calendar = (props) => {
         hiddenDays={[0, 6]}
         dateAlignment="week"
         dayHeaderFormat={(values) => {
-          switch (values.date.day) {
+          console.log(moment(values.date.marker).isoWeekday());
+          console.log("values:",values)
+          switch (moment(values.date.marker).isoWeekday()) {
             case 1:
               return ["Thứ hai"];
             case 2:
